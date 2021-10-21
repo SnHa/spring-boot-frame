@@ -19,6 +19,11 @@ spring:
     url: jdbc:mysql://172.16.30.219:3306/frame?serverTimezone=GMT%2B8&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: dbuser
     password: 123456
+    hikari:
+      auto-commit: true
+      connection-timeout: 30000
+      idle-timeout: 600000
+      maximum-pool-size: 10
   jpa:
     hibernate:
       ddl-auto: update
