@@ -1,7 +1,9 @@
 package com.atsun.springboot_hibernate.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,6 +16,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @Table(name = "cst_linkman")
 public class Linkman {
+
     /**
      * 联系人主键号
      */
@@ -21,36 +24,43 @@ public class Linkman {
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "lkm_id")
     private Integer id;
+
     /**
      * 联系人
      */
     @Column(name = "lkm_name")
     private String name;
-    @Column(name = "lmk_gender")
+
     /**
      * 性别
      */
+    @Column(name = "lmk_gender")
     private String gender;
+
     /**
      * 电话
      */
     @Column(name = "lmk_phone")
     private String phone;
+
     /**
      * 联系人手机
      */
     @Column(name = "lmk_mobile")
     private String mobile;
+
     /**
      * 联系人邮箱
      */
     @Column(name = "lmk_email")
     private String email;
+
     /**
      * 联系人职位
      */
     @Column(name = "lmk_position")
     private String position;
+
     /**
      * 联系人备注
      */
@@ -58,8 +68,7 @@ public class Linkman {
     private String memo;
 
     @ManyToOne(targetEntity = Customer.class)
-    @JoinColumn(name = "lmk_cust_id",referencedColumnName = "cust_id")
+    @JoinColumn(name = "lmk_cust_id", referencedColumnName = "cust_id")
     private Customer customer;
-
 
 }

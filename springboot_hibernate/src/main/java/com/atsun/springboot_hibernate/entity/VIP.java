@@ -12,14 +12,43 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "t_vip")
 public class VIP {
+
+    /**
+     * 主键
+     */
     @Id
-    @GeneratedValue(strategy =IDENTITY )//自动增长
-    private Integer id;//主键
+    @GeneratedValue(strategy = IDENTITY)
+    private Integer id;
+
+    /**
+     * 姓名
+     */
     @Column(name = "name")
-    private String name;//姓名
-    private String tel;//电话
-    private BigDecimal balance;//余额
-    private String card_no;//卡号
-    private String password;//密码
-    private Date caret_date;//创建日期
+    private String name;
+
+    /**
+     * 电话
+     */
+    private String tel;
+
+    /**
+     * 余额
+     */
+    private BigDecimal balance;
+
+    /**
+     * 卡号
+     */
+    private String cardNo;
+
+    /**
+     * 密码
+     */
+    private String password;
+
+    /**
+     * 创建日期
+     */
+    private Date createDate;
+
 }

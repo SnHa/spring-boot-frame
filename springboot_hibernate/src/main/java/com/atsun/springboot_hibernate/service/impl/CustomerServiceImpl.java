@@ -2,28 +2,16 @@ package com.atsun.springboot_hibernate.service.impl;
 
 import com.atsun.springboot_hibernate.dao.CustomerRepository;
 import com.atsun.springboot_hibernate.entity.Customer;
-import com.atsun.springboot_hibernate.entity.Linkman;
 import com.atsun.springboot_hibernate.service.CustomerService;
 import com.atsun.springboot_hibernate.vo.CustomerVO;
-import javassist.convert.Transformer;
-import org.hibernate.SQLQuery;
-import org.hibernate.Session;
-import org.hibernate.query.NativeQuery;
-import org.hibernate.query.internal.NativeQueryImpl;
-import org.hibernate.query.spi.NativeQueryImplementor;
-import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
 
 
 @Service

@@ -7,6 +7,5 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 /**
  * @author SH
  */
-public interface UserRepository extends JpaRepository<User,Integer>, JpaSpecificationExecutor<User> {
-
+public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 }

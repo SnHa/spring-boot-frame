@@ -4,8 +4,6 @@ import com.atsun.springboot_hibernate.entity.Customer;
 import com.atsun.springboot_hibernate.vo.CustomerVO;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 public interface CustomerService {
 
