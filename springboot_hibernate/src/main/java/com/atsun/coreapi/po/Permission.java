@@ -20,7 +20,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_permission")
-public class Permission extends BaseIncrementIdModel {
+public class Permission extends BaseUUIDModel {
 
     private static final long serialVersionUID = 5014082842481167037L;
 
@@ -71,7 +71,7 @@ public class Permission extends BaseIncrementIdModel {
     @Column
     private String remark;
 
-    public Permission(Long id) {
+    public Permission(String id) {
         super(id);
     }
 

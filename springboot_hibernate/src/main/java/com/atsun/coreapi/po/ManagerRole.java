@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Table(name = "t_manager_role", indexes = {
         @Index(name = "UK_manager_id_role_id", columnList = "managerId,roleId", unique = true)
 })
-public class ManagerRole extends BaseIncrementIdModel {
+public class ManagerRole extends BaseUUIDModel {
 
     private static final long serialVersionUID = -8595214994283867687L;
 

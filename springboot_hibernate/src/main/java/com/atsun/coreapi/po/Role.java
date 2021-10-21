@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "t_role")
-public class Role extends BaseIncrementIdModel {
+public class Role extends BaseUUIDModel {
 
     private static final long serialVersionUID = 523493271315254724L;
 
@@ -42,7 +42,7 @@ public class Role extends BaseIncrementIdModel {
     @Column
     private String remark;
 
-    public Role(Long id) {
+    public Role(String id) {
         super(id);
     }
 

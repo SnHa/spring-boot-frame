@@ -18,7 +18,7 @@ import javax.persistence.*;
 @Table(name = "t_permission_menu", indexes = {
         @Index(name = "UK_permission_id_menu_id", columnList = "permissionId,menuId", unique = true)
 })
-public class PermissionMenu extends BaseIncrementIdModel {
+public class PermissionMenu extends BaseUUIDModel {
 
     private static final long serialVersionUID = 969703816686036400L;
 

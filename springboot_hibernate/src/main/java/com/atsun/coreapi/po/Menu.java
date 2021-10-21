@@ -20,7 +20,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_menu")
-public class Menu extends BaseIncrementIdModel {
+public class Menu extends BaseUUIDModel {
 
     private static final long serialVersionUID = -7646452093379774040L;
 

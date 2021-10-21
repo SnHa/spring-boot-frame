@@ -21,7 +21,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_intl_code")
-public class IntlCode extends BaseIncrementIdModel {
+public class IntlCode extends BaseUUIDModel {
 
     private static final long serialVersionUID = 2495589284002221104L;
 

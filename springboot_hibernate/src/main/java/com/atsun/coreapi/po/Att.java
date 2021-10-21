@@ -24,7 +24,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_att")
-public class Att extends BaseIncrementIdModel {
+public class Att extends BaseUUIDModel {
 
     private static final long serialVersionUID = 4839137214041518111L;
 
@@ -116,7 +116,7 @@ public class Att extends BaseIncrementIdModel {
                 null : String.format("%s%s", StringUtils.defaultString(System.getProperty("resource.server.att.domain")), StringUtils.defaultString(addr));
     }
 
-    public Att(Long id) {
+    public Att(String id) {
         super(id);
     }
 

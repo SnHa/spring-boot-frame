@@ -1,4 +1,4 @@
-package com.atsun.coreapi.utils;
+package com.atsun.coreapi.bean;
 
 import lombok.Data;
 
@@ -11,6 +11,7 @@ import static com.atsun.coreapi.enums.StatusEnum.SUCCEED;
  */
 @Data
 public class Result<T> {
+
     /**
      * 返回状态
      */

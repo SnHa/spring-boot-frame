@@ -83,7 +83,7 @@ public class Manager extends Account {
     @Column
     private String remark;
 
-    public Manager(Long id) {
+    public Manager(String id) {
         super(id);
     }
 
