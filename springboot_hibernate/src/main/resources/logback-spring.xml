@@ -9,7 +9,7 @@
     <springProperty scope="context" name="localIntranetIp" source="application.config.local.intranet.ip"/>
     <springProperty scope="context" name="localExternalIp" source="application.config.local.external.ip"/>
 
-    <property name="LOG_HOME" value="${application.config.logs.path}${application.fs}${applicationName}"/>
+    <property name="LOG_HOME" value="C:\\logs\\${applicationName}"/>
     <property name="MAX_HISTORY" value="7"/>
     <property name="MAX_FILE_SIZE" value="1GB"/>
     <property name="TOTAL_SIZE_CAP" value="7GB"/>
