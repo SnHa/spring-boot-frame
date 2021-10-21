@@ -1,45 +1,49 @@
 package com.atsun.springboot_hibernate.entity;
 
-import lombok.AllArgsConstructor;
+import com.atsun.springboot_hibernate.enums.Scope;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
- * 用户和角色多对多的关系
+ * <p>Copyright: Copyright (c) 2019</p>
+ * <p>Description: Created by LD on 2019/11/04</p>
+ * <p>角色表</p>
  *
- * @author SH
+ * @author LD
  */
-@Entity
 @Getter
 @Setter
-@AllArgsConstructor
+@Entity
 @NoArgsConstructor
-@Table(name = "role")
-public class Role {
+@Table(name = "t_role")
+public class Role extends BaseIncrementIdModel {
+
+    private static final long serialVersionUID = 523493271315254724L;
 
     /**
-     * 角色id
+     * 名称
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private Integer roleId;
+    @Column(nullable = false, length = 64, unique = true)
+    private String name;
 
     /**
-     * 角色名称
+     * 范围
      */
-    @Column(name = "role_name")
-    private String roleName;
+    @Column(nullable = false, length = 16)
+    @Enumerated(EnumType.STRING)
+    private Scope scope = Scope.PLATFORM;
 
-    @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role",
-            joinColumns = {@JoinColumn(name = "sys_role_id", referencedColumnName = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "sys_user_id", referencedColumnName = "user_id")}
-    )
-    private Set<User> userSet;
+    /**
+     * 备注
+     */
+    @Column
+    private String remark;
+
+    public Role(Long id) {
+        super(id);
+    }
 
 }

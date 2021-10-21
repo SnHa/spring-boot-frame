@@ -25,21 +25,21 @@ public class UserController {
 
     @ApiOperation(value = "添加用户")
     @PostMapping("insert")
-    public Result<?> insert(@RequestBody User user){
-       User userInsert = userService.insert(user);
+    public Result<?> insert(@RequestBody User user) {
+        User userInsert = userService.insert(user);
         return Result.ok();
     }
 
     @ApiOperation(value = "查询用户")
     @PostMapping("select/{id}")
-    public Result<?> select(@PathVariable Integer id){
+    public Result<?> select(@PathVariable Integer id) {
         User user = userService.select(id);
         System.out.println(user.getUserName());
         Set<Role> roleSe = user.getRoleSe();
-        List<String> list=new ArrayList<>();
-        for (Role role:roleSe) {
-            System.out.println(role.getRoleName());
-            list.add(role.getRoleName());
+        List<String> list = new ArrayList<>();
+        for (Role role : roleSe) {
+            System.out.println(role.getName());
+            list.add(role.getName());
         }
 
         return Result.ok(list);
