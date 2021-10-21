@@ -1,0 +1,34 @@
+server:
+  port: 18081
+  shutdown: graceful
+
+spring:
+  application:
+    name: core-api
+  lifecycle:
+    timeout-per-shutdown-phase: 30s
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: ${user.timezone}
+    default-property-inclusion: non_null
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.30.219:3306/frame?serverTimezone=GMT%2B8&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: dbuser
+    password: 123456
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+    database: mysql
+    show-sql: true
+    open-in-view: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+
+logging:
+  level:
+    root: INFO

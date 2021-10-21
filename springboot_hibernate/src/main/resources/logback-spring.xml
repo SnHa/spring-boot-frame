@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" scanPeriod="10 seconds">
+
+    <!-- 为了防止进程退出时，内存中的数据丢失，请加上此选项 -->
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+    <springProperty scope="context" name="applicationName" source="spring.application.name"/>
+    <springProperty scope="context" name="localIntranetIp" source="application.config.local.intranet.ip"/>
+    <springProperty scope="context" name="localExternalIp" source="application.config.local.external.ip"/>
+
+    <property name="LOG_HOME" value="${application.config.logs.path}${application.fs}${applicationName}"/>
+    <property name="MAX_HISTORY" value="7"/>
+    <property name="MAX_FILE_SIZE" value="1GB"/>
+    <property name="TOTAL_SIZE_CAP" value="7GB"/>
+    <property name="CLEAN_HISTORY_ON_START" value="true"/>
+
+    <contextName>${applicationName}</contextName>
+
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/error.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <MaxFileSize>${MAX_FILE_SIZE}</MaxFileSize>
+            <TotalSizeCap>${TOTAL_SIZE_CAP}</TotalSizeCap>
+            <CleanHistoryOnStart>${CLEAN_HISTORY_ON_START}</CleanHistoryOnStart>
+        </rollingPolicy>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="WARN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/warn.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <MaxFileSize>${MAX_FILE_SIZE}</MaxFileSize>
+            <TotalSizeCap>${TOTAL_SIZE_CAP}</TotalSizeCap>
+            <CleanHistoryOnStart>${CLEAN_HISTORY_ON_START}</CleanHistoryOnStart>
+        </rollingPolicy>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="INFO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/info.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <MaxFileSize>${MAX_FILE_SIZE}</MaxFileSize>
+            <TotalSizeCap>${TOTAL_SIZE_CAP}</TotalSizeCap>
+            <CleanHistoryOnStart>${CLEAN_HISTORY_ON_START}</CleanHistoryOnStart>
+        </rollingPolicy>
+
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/debug.%d{yyyy-MM-dd}.%i.log</FileNamePattern>
+            <MaxHistory>${MAX_HISTORY}</MaxHistory>
+            <MaxFileSize>${MAX_FILE_SIZE}</MaxFileSize>
+            <TotalSizeCap>${TOTAL_SIZE_CAP}</TotalSizeCap>
+            <CleanHistoryOnStart>${CLEAN_HISTORY_ON_START}</CleanHistoryOnStart>
+        </rollingPolicy>
+
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="ERROR_FILE"/>
+    </root>
+
+</configuration>
