@@ -19,7 +19,7 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @Table(name = "t_role")
-public class Role extends BaseUUIDModel {
+public class Role extends BaseSnowflakeIdModel {
 
     private static final long serialVersionUID = 523493271315254724L;
 

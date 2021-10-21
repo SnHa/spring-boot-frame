@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Table(name = "t_manager_scope", indexes = {
         @Index(name = "UK_manager_id_scope", columnList = "managerId,scope", unique = true)
 })
-public class ManagerScope extends BaseUUIDModel {
+public class ManagerScope extends BaseSnowflakeIdModel {
 
     private static final long serialVersionUID = -9206153926879467419L;
 

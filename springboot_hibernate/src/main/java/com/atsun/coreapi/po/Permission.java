@@ -20,7 +20,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_permission")
-public class Permission extends BaseUUIDModel {
+public class Permission extends BaseSnowflakeIdModel {
 
     private static final long serialVersionUID = 5014082842481167037L;
 

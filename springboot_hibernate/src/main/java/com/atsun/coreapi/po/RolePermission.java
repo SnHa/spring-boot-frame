@@ -20,7 +20,7 @@ import javax.persistence.*;
 @Table(name = "t_role_permission", indexes = {
         @Index(name = "UK_role_id_permission_id", columnList = "roleId,permissionId", unique = true)
 })
-public class RolePermission extends BaseUUIDModel {
+public class RolePermission extends BaseSnowflakeIdModel {
 
     private static final long serialVersionUID = 8599031416373616517L;
 

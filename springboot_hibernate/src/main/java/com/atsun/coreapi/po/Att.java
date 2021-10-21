@@ -24,7 +24,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "t_att")
-public class Att extends BaseUUIDModel {
+public class Att extends BaseSnowflakeIdModel {
 
     private static final long serialVersionUID = 4839137214041518111L;
 

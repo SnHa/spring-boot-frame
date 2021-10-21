@@ -20,7 +20,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public class Account extends BaseUUIDModel {
+public class Account extends BaseSnowflakeIdModel {
 
     private static final long serialVersionUID = 6713104499227228432L;
 

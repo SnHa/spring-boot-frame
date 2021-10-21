@@ -15,17 +15,14 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public class BaseUUIDModel extends BaseModel {
+public class BaseSnowflakeIdModel extends BaseModel {
 
     private static final long serialVersionUID = 3298876826749220766L;
 
-    /**
-     * 主键: UUID
-     */
     @Id
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
-    @GeneratedValue(generator = "uuid2")
-    @Column(length = 36)
+    @Column(length = 19)
+    @GeneratedValue(generator = "snowflakeId")
+    @GenericGenerator(name = "snowflakeId", strategy = "com.atsun.coreapi.orm.id.SnowflakeIdGenerator")
     private String id;
 
     public String getId() {
@@ -36,7 +33,7 @@ public class BaseUUIDModel extends BaseModel {
         this.id = StrUtil.emptyToNull(id);
     }
 
-    public BaseUUIDModel(String id) {
+    public BaseSnowflakeIdModel(String id) {
         this.id = id;
     }
 
