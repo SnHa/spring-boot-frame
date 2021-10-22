@@ -19,4 +19,13 @@ public enum ManagerType implements EnumFormat<String> {
         this.name = name;
     }
 
+    public static ManagerType getEnum(String tag) {
+        try {
+            return valueOf(tag.toUpperCase());
+        } catch (Exception ignore) {
+        }
+
+        return SUPER;
+    }
+
 }
