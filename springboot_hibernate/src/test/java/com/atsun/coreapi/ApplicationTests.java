@@ -21,6 +21,7 @@ class ApplicationTests {
         HashMap<String, Object> params = new HashMap<>();
         params.put("username","sunhao");
         ManagerVO singleResultBySql = complexDao.getSingleResultBySql(sql, params, ManagerVO.class);
+        
     }
 
 }
