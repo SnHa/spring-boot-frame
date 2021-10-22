@@ -16,8 +16,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.16.30.219:3306/frame?serverTimezone=GMT%2B8&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: dbuser
+    url: jdbc:mysql://localhost:3306/frame?serverTimezone=UTC&createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
     password: 123456
     hikari:
       auto-commit: true
