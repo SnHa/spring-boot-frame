@@ -4,6 +4,7 @@ import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Sexual;
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 
 /**
@@ -23,6 +24,11 @@ public class ManagerVO implements Serializable {
      * 用户名
      */
     private String username;
+
+    /**
+     * 密码
+     */
+    private String password;
 
     /**
      * 真实姓名
@@ -53,6 +59,10 @@ public class ManagerVO implements Serializable {
      * 备注
      */
     private String remark;
+    /**
+     *
+     */
+    private String headImageAttId;
 
     public void setType(Object type) {
         this.type = type instanceof String ? ManagerType.getEnum((String) type) : (ManagerType) type;

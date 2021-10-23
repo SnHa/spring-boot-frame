@@ -14,10 +14,8 @@ import java.util.HashMap;
 @SpringBootTest
 class ApplicationTests {
 
-    @Qualifier("complexDaoImpl")
-    @Autowired
-    ComplexDao<Manager, String> complexDao;
 
+    @Autowired
     private ManagerSimpleDao managerSimpleDao;
 
     @Autowired
@@ -28,15 +26,14 @@ class ApplicationTests {
     @Test
     void contextLoads() {
 
-        String sql = "SELECT * FROM t_manager tm WHERE tm.username=:username";
+        //String sql = "SELECT * FROM t_manager tm WHERE tm.username=:username";
 
+        String sql="select * from t_manager tm where tm.username=?";
         HashMap<String, Object> params = new HashMap<>();
+        params.put("username","sunhao");
 
-        params.put("username", "sunhao");
+        ManagerVO vo = managerSimpleDao.getUserSql("sunhao");
 
-        ManagerVO vo = complexDao.getSingleResultBySql(sql, params, ManagerVO.class);
-
-        System.err.println(vo.toString());
+        System.out.println(vo);
     }
-
 }

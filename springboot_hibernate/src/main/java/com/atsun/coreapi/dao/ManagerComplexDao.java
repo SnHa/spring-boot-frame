@@ -12,6 +12,8 @@ public interface ManagerComplexDao extends ComplexDao<Manager, String> {
 
     Manager getSingleById(String id);
 
+    ManagerVO getUserSql(String username);
+
     ManagerVO getOneById(String id);
 
     PageBean<ManagerVO> getPage(String username, Page page);
