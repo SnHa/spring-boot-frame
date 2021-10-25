@@ -62,7 +62,7 @@ public class ManagerVO implements Serializable {
     /**
      *
      */
-    private String headImageAttId;
+    private String tokenVer;
 
     public void setType(Object type) {
         this.type = type instanceof String ? ManagerType.getEnum((String) type) : (ManagerType) type;

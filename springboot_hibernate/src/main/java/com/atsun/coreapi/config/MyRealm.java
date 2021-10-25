@@ -1,5 +1,6 @@
 package com.atsun.coreapi.config;
 
+import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.service.ManagerService;
 import com.atsun.coreapi.vo.ManagerVO;
 import org.apache.shiro.authc.*;
@@ -28,6 +29,7 @@ public class MyRealm extends AuthorizingRealm {
         UsernamePasswordToken userToken= (UsernamePasswordToken) authenticationToken;
         // 根据当前用户名对数据库用户进行比对
         ManagerVO manager=managerService.getUser(userToken.getUsername());
+        manager.setTokenVer("1111");
         if (manager==null){
             //没有该用户
             return null;

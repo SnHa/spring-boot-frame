@@ -34,7 +34,7 @@ public class LoginController {
             try {
                 currentUser.login(token);
                 currentUser.getSession().setAttribute("currentUser",currentUser.getPrincipal());
-                return currentUser.getSession().getAttribute("currentUser");
+                return new BaseController().ok(currentUser.getSession().getAttribute("currentUser")) ;
             } catch (UnknownAccountException uae) {
                 log.info("未知账户");
                 return "未知账户";
@@ -59,10 +59,10 @@ public class LoginController {
     }
 
     @ApiOperation("登出")
-    @GetMapping("out")
+    @DeleteMapping("out")
     public Object out(){
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "";
+        return new BaseController().ok();
     }
 }
