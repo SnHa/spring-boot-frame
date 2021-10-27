@@ -1,6 +1,6 @@
 package com.atsun.coreapi.service.impl;
 
-import com.atsun.coreapi.dao.ManagerRoleSimple;
+import com.atsun.coreapi.dao.ManagerRoleSimpleDao;
 import com.atsun.coreapi.service.ManagerRoleService;
 import com.atsun.coreapi.vo.ManagerRoleVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,13 @@ import java.util.List;
  */
 @Service
 public class ManagerRoleServiceImpl implements ManagerRoleService {
+
     @Autowired
-    private ManagerRoleSimple managerRoleSimple;
+    private ManagerRoleSimpleDao managerRoleSimpleDao;
+
     @Override
     public List<ManagerRoleVO> getListRole(String id) {
-        return  managerRoleSimple.getListRoleId(id);
-
+        return managerRoleSimpleDao.getListRoleId(id);
     }
+
 }

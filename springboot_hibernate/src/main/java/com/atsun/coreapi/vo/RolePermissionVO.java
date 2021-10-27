@@ -1,12 +1,6 @@
 package com.atsun.coreapi.vo;
 
-import com.atsun.coreapi.po.Permission;
-import com.atsun.coreapi.po.Role;
 import lombok.Data;
-
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 
 /**
  * @author HP

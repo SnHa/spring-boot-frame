@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * @author HP
  */
-public interface RolePermissionSimpleComplexDao extends ComplexDao<RolePermission,String> {
+public interface RolePermissionSimpleComplexDao extends ComplexDao<RolePermission, String> {
+
     List<RolePermissionVO> getListPermission(List<ManagerRoleVO> listRole);
+
 }

@@ -1,9 +1,7 @@
 package com.atsun.coreapi.dao.impl;
 
 import com.atsun.coreapi.dao.ManagerScopeComplexDao;
-import com.atsun.coreapi.dao.MenuComplexDao;
 import com.atsun.coreapi.po.ManagerScope;
-import com.atsun.coreapi.po.Menu;
 
 import java.util.HashMap;
 import java.util.List;

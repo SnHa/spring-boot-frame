@@ -1,11 +1,9 @@
 package com.atsun.coreapi.vo;
 
-import com.atsun.coreapi.enums.AccountState;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Sexual;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 

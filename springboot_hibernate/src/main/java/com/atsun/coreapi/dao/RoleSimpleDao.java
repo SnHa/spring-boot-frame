@@ -5,5 +5,5 @@ import com.atsun.coreapi.po.Role;
 /**
  * @author HP
  */
-public interface RoleSimpleDao extends SimpleDao<Role,String>,RoleSimpleComplexDao {
+public interface RoleSimpleDao extends SimpleDao<Role, String>, RoleComplexDao {
 }

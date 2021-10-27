@@ -1,6 +1,6 @@
 package com.atsun.coreapi.service;
 
-import com.atsun.coreapi.dt.ManagerDTO;
+import com.atsun.coreapi.dto.ManagerDTO;
 import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.vo.ManagerVO;
 

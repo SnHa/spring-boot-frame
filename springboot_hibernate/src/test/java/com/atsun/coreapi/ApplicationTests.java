@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @SpringBootTest
@@ -25,7 +24,7 @@ class ApplicationTests {
     @Autowired
     private ManagerScopeSimpleDao managerScopeSimpleDao;
     @Autowired
-    private ManagerRoleSimple managerRoleSimple;
+    private ManagerRoleSimpleDao managerRoleSimpleDao;
     @Autowired
     private RolePermissionSimpleDao rolePermissionSimpleDao;
     @Autowired
@@ -46,7 +45,7 @@ class ApplicationTests {
 
         ManagerVO vo = managerSimpleDao.getUserSql("sunhao");*/
 /*        System.out.println(vo);*/
-        List<ManagerVO> allManager = managerSimpleDao.getAllManager();
+        List<ManagerVO> allManager = managerSimpleDao.getAll();
         for (ManagerVO mv :allManager) {
             System.out.println(mv.toString());
         }
@@ -69,7 +68,7 @@ class ApplicationTests {
     }
     @Test
     void listRoleId(){
-        List<ManagerRoleVO> listRoleId = managerRoleSimple.getListRoleId("1");
+        List<ManagerRoleVO> listRoleId = managerRoleSimpleDao.getListRoleId("1");
         for (ManagerRoleVO mv:listRoleId) {
             System.out.println(mv);
         }
@@ -80,7 +79,7 @@ class ApplicationTests {
     }
     @Test
     void  menu(){
-        List<ManagerRoleVO> listRoleId = managerRoleSimple.getListRoleId("1");
+        List<ManagerRoleVO> listRoleId = managerRoleSimpleDao.getListRoleId("1");
         List<RolePermissionVO> list =rolePermissionSimpleDao.getListPermission(listRoleId);
         List<PermissionVO> listMenu = permissionSimpleDao.getListMenu(list);
         String path = menuSimpleDao.getMenuPath("用户中心");

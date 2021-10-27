@@ -1,4 +1,4 @@
-package com.atsun.coreapi.dt;
+package com.atsun.coreapi.dto;
 
 import lombok.Data;
 
@@ -6,7 +6,7 @@ import lombok.Data;
  * @author HP
  */
 @Data
-public class LoginDT {
+public class LoginDTO {
 
     private String username;
 

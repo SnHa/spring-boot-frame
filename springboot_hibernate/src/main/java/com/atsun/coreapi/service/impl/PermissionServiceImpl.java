@@ -15,21 +15,27 @@ import java.util.List;
  */
 @Service
 public class PermissionServiceImpl implements PermissionService {
+
     @Autowired
     private PermissionSimpleDao permissionSimpleDao;
     @Autowired
     private MenuSimpleDao menuSimpleDao;
+
     @Override
     public List<PermissionVO> getListMenu(List<RolePermissionVO> listPermission) {
+
         List<PermissionVO> listMenu = permissionSimpleDao.getListMenu(listPermission);
-        for (int i=0;i<listMenu.size();i++){
+
+        for (int i = 0; i < listMenu.size(); i++) {
             PermissionVO permissionVO = listMenu.get(i);
             String name = permissionVO.getName();
             // 获取路径
-          String path = menuSimpleDao.getMenuPath(name);
-          permissionVO.setPath(path);
-          listMenu.set(i,permissionVO);
+            String path = menuSimpleDao.getMenuPath(name);
+            permissionVO.setPath(path);
+            listMenu.set(i, permissionVO);
         }
-        return  listMenu;
+
+        return listMenu;
     }
+
 }

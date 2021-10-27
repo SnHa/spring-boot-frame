@@ -1,9 +1,8 @@
 package com.atsun.coreapi.controller;
 
-import com.atsun.coreapi.dt.LoginDT;
+import com.atsun.coreapi.dto.LoginDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -25,14 +24,14 @@ public class LoginController {
     @PostMapping("login")
     public Object login(@RequestParam("username") String username,
                         @RequestParam("password") String password){
-        LoginDT loginDT=new LoginDT();
-        loginDT.setUsername(username);
-        loginDT.setPassword(password);
+        LoginDTO loginDTO =new LoginDTO();
+        loginDTO.setUsername(username);
+        loginDTO.setPassword(password);
         // 获取用户数据
         Subject currentUser = SecurityUtils.getSubject();
         // 判断是否完成认证
         if (!currentUser.isAuthenticated()){
-            UsernamePasswordToken token = new UsernamePasswordToken(loginDT.getUsername(),loginDT.getPassword());
+            UsernamePasswordToken token = new UsernamePasswordToken(loginDTO.getUsername(), loginDTO.getPassword());
             try {
                 currentUser.login(token);
                 currentUser.getSession().setAttribute("currentUser",currentUser.getPrincipal());

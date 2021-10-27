@@ -14,17 +14,20 @@ import java.util.List;
  */
 @Service
 public class ManagerScopeServiceImpl implements ManagerScopeService {
+
     @Autowired
     private MenuSimpleDao menuSimpleDao;
     @Autowired
     private ManagerScopeSimpleDao managerScopeSimpleDao;
+
     @Override
     public List<PermissionVO> getMenuList(List<String> list) {
-        return  menuSimpleDao.getMenuListV(list);
+        return menuSimpleDao.getMenuListV(list);
     }
 
     @Override
     public List<String> getById(String id) {
-        return  managerScopeSimpleDao.getListScope(id);
+        return managerScopeSimpleDao.getListScope(id);
     }
+
 }

@@ -1,14 +1,10 @@
-package com.atsun.coreapi.dt;
+package com.atsun.coreapi.dto;
 
 import com.atsun.coreapi.enums.AccountState;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Sexual;
-import com.atsun.coreapi.po.Att;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.List;
 
 

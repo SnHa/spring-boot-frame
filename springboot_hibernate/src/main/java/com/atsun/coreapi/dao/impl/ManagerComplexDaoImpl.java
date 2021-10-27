@@ -3,7 +3,6 @@ package com.atsun.coreapi.dao.impl;
 import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.ManagerComplexDao;
-import com.atsun.coreapi.dt.ManagerDTO;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.po.BaseModel;
 import com.atsun.coreapi.po.Manager;
@@ -44,12 +43,15 @@ public class ManagerComplexDaoImpl extends ComplexDaoImpl<Manager, String> imple
 
     @Override
     public ManagerVO getUserSql(String username) {
-        String sql=String.format("SELECT o.id AS id, o.username AS username, o.real_name AS realName, o.type AS type , o.sexual AS sexual, o.password AS password " +
+
+        String sql = String.format("SELECT o.id AS id, o.username AS username, o.real_name AS realName, o.type AS type , o.sexual AS sexual, o.password AS password " +
                 "FROM %s o WHERE o.username=:username ", getTableName());
+
         Map<String, Object> params = new HashMap<>(5);
 
         params.put("username", username);
-        return super.getSingleResultBySql(sql,params,ManagerVO.class);
+
+        return super.getSingleResultBySql(sql, params, ManagerVO.class);
     }
 
     @Override
@@ -103,9 +105,12 @@ public class ManagerComplexDaoImpl extends ComplexDaoImpl<Manager, String> imple
     }
 
     @Override
-    public List<ManagerVO> getAllManager() {
-        String sql="SELECT o.id AS id , o.username AS username ,o.real_name AS realName , O.last_login_datetime AS lastLoginDatetime , " +
-                " o.type AS type , o.state AS state  FROM t_manager o";
-        return super.getListBySql(sql,null,null,ManagerVO.class);
+    public List<ManagerVO> getAll() {
+
+        String sql = "SELECT o.id AS id, o.username AS username, o.real_name AS realName, o.last_login_datetime AS lastLoginDatetime, " +
+                " o.type AS type, o.state AS state FROM t_manager o ";
+
+        return super.getListBySql(sql, null, null, ManagerVO.class);
     }
+
 }
