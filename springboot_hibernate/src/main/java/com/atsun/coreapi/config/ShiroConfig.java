@@ -112,8 +112,9 @@ public class ShiroConfig {
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager getSecurityManager) {
-        // ShrioFilterFactroy 拦截控制
-        HashMap<String, String> filterMap = new HashMap<>();
+
+        HashMap<String, String> filterMap = new HashMap<>(16);
+
         //配置路径过滤器 anthc表示需要登录后才能进入
         filterMap.put("/info/**", "authc");
         filterMap.put("/menu/**", "authc");
@@ -125,6 +126,7 @@ public class ShiroConfig {
         filters.put("jwtFilter", new JwtFilter());
 
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+
         factoryBean.setSecurityManager(getSecurityManager);
         factoryBean.setFilters(filters);
         factoryBean.setFilterChainDefinitionMap(filterMap);
