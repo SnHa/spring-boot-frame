@@ -55,7 +55,7 @@ public class ShiroConfig {
             }
 
             // 完成认证
-            return new SimpleAuthenticationInfo(manager, manager.getPassword(), "AuthRealm");
+            return new SimpleAuthenticationInfo(manager, token.getToken(), manager.getUsername());
         }
 
     }
