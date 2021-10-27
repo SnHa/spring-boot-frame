@@ -13,10 +13,10 @@ import java.util.List;
 public class ManagerRoleComplexDaoImpl extends ComplexDaoImpl<ManagerRole,String> implements ManagerRoleComplexDao {
 
     @Override
-    public List<ManagerRoleVO> getListRoleId(String id) {
+    public List<String> getListRoleId(String id) {
         String sql="SELECT o.role_id AS roleId FROM t_manager_role o WHERE o.manager_id=:managerId";
-        HashMap<String, Object> params = new HashMap<>();
+        HashMap<String, Object> params = new HashMap<>(5);
         params.put("managerId",id);
-        return super.getListBySql(sql,params,null,ManagerRoleVO.class);
+        return super.getListBySql(sql,params,null,String.class);
     }
 }

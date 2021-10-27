@@ -1,5 +1,6 @@
 package com.atsun.coreapi.utils;
 
+import com.atsun.coreapi.vo.MenuVO;
 import com.atsun.coreapi.vo.PermissionVO;
 
 import java.util.ArrayList;
@@ -42,7 +43,7 @@ public class TreeUtil {
     /**
      * 构建树节点
      */
-    public static <T extends PermissionVO> List<T> build(List<T> treeNodes) {
+    public static <T extends MenuVO> List<T> build(List<T> treeNodes) {
         List<T> result = new ArrayList<>();
         //list转map
         Map<String, T> nodeMap = new LinkedHashMap<>(treeNodes.size());

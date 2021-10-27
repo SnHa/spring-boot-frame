@@ -14,6 +14,6 @@ public interface RolePermissionService {
      * @param listRole
      * @return
      */
-    List<RolePermissionVO> getListPermission(List<ManagerRoleVO> listRole);
+    List<String> getListPermission(List<String> listRole);
 
 }

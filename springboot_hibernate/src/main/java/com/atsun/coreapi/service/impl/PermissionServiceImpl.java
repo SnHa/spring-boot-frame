@@ -22,20 +22,8 @@ public class PermissionServiceImpl implements PermissionService {
     private MenuSimpleDao menuSimpleDao;
 
     @Override
-    public List<PermissionVO> getListMenu(List<RolePermissionVO> listPermission) {
-
-        List<PermissionVO> listMenu = permissionSimpleDao.getListMenu(listPermission);
-
-        for (int i = 0; i < listMenu.size(); i++) {
-            PermissionVO permissionVO = listMenu.get(i);
-            String name = permissionVO.getName();
-            // 获取路径
-            String path = menuSimpleDao.getMenuPath(name);
-            permissionVO.setPath(path);
-            listMenu.set(i, permissionVO);
-        }
-
-        return listMenu;
+    public List<String> getListTypeMenu(List<String> listPermission) {
+        return permissionSimpleDao.getListTypeMenu(listPermission);
     }
 
 }

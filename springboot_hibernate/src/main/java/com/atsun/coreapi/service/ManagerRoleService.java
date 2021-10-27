@@ -13,5 +13,5 @@ public interface ManagerRoleService {
      * @param id
      * @return
      */
-    List<ManagerRoleVO> getListRole(String id);
+    List<String> getListRole(String id);
 }

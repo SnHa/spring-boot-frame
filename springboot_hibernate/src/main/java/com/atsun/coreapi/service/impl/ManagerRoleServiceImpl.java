@@ -18,7 +18,7 @@ public class ManagerRoleServiceImpl implements ManagerRoleService {
     private ManagerRoleSimpleDao managerRoleSimpleDao;
 
     @Override
-    public List<ManagerRoleVO> getListRole(String id) {
+    public List<String> getListRole(String id) {
         return managerRoleSimpleDao.getListRoleId(id);
     }
 

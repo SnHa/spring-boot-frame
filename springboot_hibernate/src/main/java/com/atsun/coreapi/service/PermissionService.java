@@ -9,11 +9,11 @@ import java.util.List;
  * @author HP
  */
 public interface PermissionService {
+
     /**
-     * 查询菜单
+     * 查询满足type的id
      * @param listPermission
      * @return
      */
-    List<PermissionVO> getListMenu(List<RolePermissionVO> listPermission);
-
+    List<String> getListTypeMenu(List<String> listPermission);
 }

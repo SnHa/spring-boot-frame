@@ -4,11 +4,19 @@ import com.atsun.coreapi.enums.Scope;
 import com.atsun.coreapi.po.Menu;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author HP
  */
 @Data
 public class MenuVO {
+    /**
+     *
+     * id
+     */
+    private String id;
 
     /**
      * 菜单标题
@@ -43,12 +51,12 @@ public class MenuVO {
     /**
      * 父菜单
      */
-    private Menu parentMenu;
+    private String pid;
 
     /**
      * 范围
      */
-    private Scope scope;
+    private String scope;
 
     /**
      * 排序编号
@@ -65,4 +73,5 @@ public class MenuVO {
      */
     private String remark;
 
+    private List<MenuVO> children = new ArrayList<>();
 }

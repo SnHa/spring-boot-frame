@@ -14,5 +14,5 @@ public interface ManagerRoleComplexDao extends ComplexDao<ManagerRole,String>{
      * @param id
      * @return
      */
-    List<ManagerRoleVO> getListRoleId(String id);
+    List<String> getListRoleId(String id);
 }

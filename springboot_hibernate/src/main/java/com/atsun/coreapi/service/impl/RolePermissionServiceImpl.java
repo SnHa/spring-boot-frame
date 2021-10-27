@@ -17,7 +17,7 @@ public class RolePermissionServiceImpl implements RolePermissionService {
     @Autowired
     private RolePermissionSimpleDao rolePermissionSimpleDao;
     @Override
-    public List<RolePermissionVO> getListPermission(List<ManagerRoleVO> listRole) {
+    public List<String> getListPermission(List<String> listRole) {
         return rolePermissionSimpleDao.getListPermission(listRole);
     }
 }
