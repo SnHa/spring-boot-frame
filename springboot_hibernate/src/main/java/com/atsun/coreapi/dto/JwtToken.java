@@ -24,4 +24,8 @@ public class JwtToken implements AuthenticationToken {
         return token;
     }
 
+    public JwtToken(String token) {
+        this.token = token;
+    }
+
 }
