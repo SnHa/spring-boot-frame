@@ -3,6 +3,7 @@ package com.atsun.coreapi.dao.impl;
 import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.ManagerComplexDao;
+import com.atsun.coreapi.dt.ManagerDTO;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.po.BaseModel;
 import com.atsun.coreapi.po.Manager;
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -100,4 +102,10 @@ public class ManagerComplexDaoImpl extends ComplexDaoImpl<Manager, String> imple
         return super.getPageByHql(hql, params, BaseModel.DEFAULT_CREATE_DATETIME_DESC_ORDERS, page, ManagerVO.class);
     }
 
+    @Override
+    public List<ManagerVO> getAllManager() {
+        String sql="SELECT o.id AS id , o.username AS username ,o.real_name AS realName , O.last_login_datetime AS lastLoginDatetime , " +
+                " o.type AS type , o.state AS state  FROM t_manager o";
+        return super.getListBySql(sql,null,null,ManagerVO.class);
+    }
 }

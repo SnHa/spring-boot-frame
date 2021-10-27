@@ -2,9 +2,12 @@ package com.atsun.coreapi.dao;
 
 import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.bean.PageBean;
+import com.atsun.coreapi.dt.ManagerDTO;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.vo.ManagerVO;
+
+import java.util.List;
 
 public interface ManagerComplexDao extends ComplexDao<Manager, String> {
 
@@ -19,5 +22,7 @@ public interface ManagerComplexDao extends ComplexDao<Manager, String> {
     PageBean<ManagerVO> getPage(String username, Page page);
 
     PageBean<ManagerVO> getPage(String username, ManagerType type, Page page);
+
+    List<ManagerVO> getAllManager();
 
 }

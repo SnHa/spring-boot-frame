@@ -8,6 +8,7 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * @author SH
@@ -19,6 +20,8 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         // 授权
+        Object primaryPrincipal = principalCollection.getPrimaryPrincipal();
+        System.out.println(primaryPrincipal);
         return null;
     }
 

@@ -10,6 +10,8 @@ import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
+import static com.atsun.coreapi.enums.TransCode.ACCOUNT_BAD_CREDENTIALS;
+
 /**
  * @author SH
  */
@@ -40,7 +42,7 @@ public class LoginController {
                 return "未知账户";
             } catch (IncorrectCredentialsException ice) {
                 log.info("密码不正确");
-                return "密码不正确";
+                return new BaseController().error(ACCOUNT_BAD_CREDENTIALS);
             } catch (LockedAccountException lae) {
                 log.info("账户已锁定");
                 return "账户已锁定";
@@ -49,11 +51,11 @@ public class LoginController {
             } catch (AuthenticationException ae) {
                 System.out.println("用户名或密码不正确");
                 log.info("用户名或密码不正确");
-                return "用户名或密码不正确！";
+                return new BaseController().error(ACCOUNT_BAD_CREDENTIALS);
             }
 
         }else {
-            return null;
+            return new BaseController().error(ACCOUNT_BAD_CREDENTIALS);
         }
 
     }

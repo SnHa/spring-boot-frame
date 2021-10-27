@@ -1,11 +1,13 @@
 package com.atsun.coreapi.vo;
 
+import com.atsun.coreapi.enums.AccountState;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Sexual;
 import lombok.Data;
 
-import javax.persistence.Column;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author SH
@@ -59,13 +61,35 @@ public class ManagerVO implements Serializable {
      * 备注
      */
     private String remark;
+
     /**
      *
      */
     private String tokenVer;
 
+    /**
+     * 账户状态
+     */
+    private String state;
+
+    /**
+     * 最后登录时间
+     */
+    private Date lastLoginDatetime;
+
     public void setType(Object type) {
         this.type = type instanceof String ? ManagerType.getEnum((String) type) : (ManagerType) type;
+    }
+
+
+
+    public void setState(Object state) {
+        if (state.equals("NORMAL")){
+            this.state = "正常";
+        }else if (state.equals("LOCKED")){
+            this.state="锁定";
+        }
+
     }
 
     public void setSexual(Object sexual) {

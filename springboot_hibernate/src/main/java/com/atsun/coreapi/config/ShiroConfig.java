@@ -33,6 +33,7 @@ public class ShiroConfig  {
         HashMap<String, String> filterMap = new HashMap<>();
         //配置路径过滤器 anthc表示需要登录后才能进入
         filterMap.put("/info/**","authc");
+        filterMap.put("/menu/**","authc");
         ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
         factoryBean.setSecurityManager(getSecurityManager);
         factoryBean.setFilterChainDefinitionMap(filterMap);
