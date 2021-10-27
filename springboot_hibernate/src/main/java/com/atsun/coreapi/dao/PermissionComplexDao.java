@@ -1,8 +1,6 @@
 package com.atsun.coreapi.dao;
 
 import com.atsun.coreapi.po.Permission;
-import com.atsun.coreapi.vo.PermissionVO;
-import com.atsun.coreapi.vo.RolePermissionVO;
 
 import java.util.List;
 

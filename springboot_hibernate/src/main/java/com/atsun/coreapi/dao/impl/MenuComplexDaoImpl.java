@@ -28,7 +28,7 @@ public class MenuComplexDaoImpl extends ComplexDaoImpl<Menu,String> implements M
     }
 
     @Override
-    public List<MenuVO> getListMenu(List<String> listMenuId) {
+    public List<MenuVO> getAll(List<String> listMenuId) {
 
         String sql="SELECT o.id AS id, o.name AS name, o.path AS path, o.p_id AS pid, o.title AS title   FROM t_menu o WHERE o.id IN (:id )";
 

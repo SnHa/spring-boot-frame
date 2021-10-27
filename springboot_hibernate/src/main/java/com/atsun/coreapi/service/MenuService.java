@@ -11,8 +11,12 @@ public interface MenuService {
 
     /**
      * 获取菜单权限的菜单信息
-     * @param listMenuId
+     *
+     * @param permissionIds
      * @return
      */
-    List<MenuVO> getMenuList(List<String> listMenuId);
+    List<MenuVO> getAll(List<String> permissionIds);
+
+    List<MenuVO> getTree();
+
 }
