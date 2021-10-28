@@ -36,7 +36,6 @@ public class LoginController extends BaseController {
 
         AccountLoginData accountLoginData = new AccountLoginData(token);
         accountLoginData.setToken(token);
-
         return ok(accountLoginData);
     }
 

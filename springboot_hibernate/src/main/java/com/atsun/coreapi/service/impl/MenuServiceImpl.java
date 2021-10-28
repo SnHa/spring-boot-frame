@@ -35,8 +35,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuVO> getMenuList(List<String> listMenuId) {
-      //  return menuSimpleDao.getListMenu(listMenuId);
-        return null;
+        return menuSimpleDao.getAll(listMenuId);
     }
 
     @Override

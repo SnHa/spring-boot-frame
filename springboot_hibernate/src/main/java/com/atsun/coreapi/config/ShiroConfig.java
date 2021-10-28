@@ -1,8 +1,9 @@
 package com.atsun.coreapi.config;
 
 import com.atsun.coreapi.dto.JwtToken;
-import com.atsun.coreapi.enums.AccountState;
 import com.atsun.coreapi.service.ManagerService;
+import com.atsun.coreapi.utils.AuthFilter;
+import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.vo.ManagerVO;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -15,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.Filter;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author SH
@@ -45,19 +48,20 @@ public class ShiroConfig {
         protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
             // 认证
             // 获取token
-            JwtToken jwtToken = (JwtToken) authenticationToken;
+           JwtToken jwtToken= (JwtToken) authenticationToken;
+            String token = jwtToken.getToken();
             //解析token
-            ManagerVO manager = managerService.getUser("sunhao");
-
+            TokenUtils tokenUtils = new TokenUtils();
+            ManagerVO managerUser = tokenUtils.validationToken(token);
+            ManagerVO manager = managerService.getUser(managerUser.getUsername());
             if (manager == null) {
                 //没有该用户
                 throw new UnknownAccountException("账户不存在");
             }
-
-            if (manager.getState() != AccountState.NORMAL) {
+            if (!manager.getState().equals("NORMAL")) {
                 throw new LockedAccountException("账户锁定");
             }
-
+            // 完成认证
             return new SimpleAuthenticationInfo(jwtToken.getPrincipal(), jwtToken.getCredentials(), manager.getUsername());
         }
 
@@ -79,13 +83,22 @@ public class ShiroConfig {
 
     @Bean
     public ShiroFilterFactoryBean shiroFilterFactoryBean(DefaultWebSecurityManager getSecurityManager) {
+
+        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
+        factoryBean.setSecurityManager(getSecurityManager);
+
+        //oauth过滤
+        Map<String, Filter> filters = new HashMap<>();
+        //添加自定义过滤器
+        filters.put("auth", new AuthFilter());
+        factoryBean.setFilters(filters);
+
         // ShrioFilterFactroy 拦截控制
         HashMap<String, String> filterMap = new HashMap<>();
         //配置路径过滤器 anthc表示需要登录后才能进入
-        filterMap.put("/info/**", "authc");
-        filterMap.put("/menu/**", "authc");
-        ShiroFilterFactoryBean factoryBean = new ShiroFilterFactoryBean();
-        factoryBean.setSecurityManager(getSecurityManager);
+        filterMap.put("/info/**", "auth");
+        filterMap.put("/menu/**", "auth");
+
         factoryBean.setFilterChainDefinitionMap(filterMap);
         return factoryBean;
     }
