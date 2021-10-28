@@ -1,5 +1,6 @@
 package com.atsun.coreapi.config;
 
+import com.atsun.coreapi.dto.JwtToken;
 import com.atsun.coreapi.service.ManagerService;
 import com.atsun.coreapi.vo.ManagerVO;
 import org.apache.shiro.authc.*;
@@ -27,6 +28,11 @@ public class ShiroConfig  {
     public class MyRealm extends AuthorizingRealm {
 
         @Override
+        public  boolean supports(AuthenticationToken token){
+            return token instanceof JwtToken;
+        }
+
+        @Override
         protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
             // 授权
             Object primaryPrincipal = principalCollection.getPrimaryPrincipal();
@@ -37,16 +43,26 @@ public class ShiroConfig  {
         @Override
         protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
             // 认证
-            // 获取当前用户
-            UsernamePasswordToken userToken = (UsernamePasswordToken) authenticationToken;
-            // 根据当前用户名对数据库用户进行比对
-            ManagerVO manager = managerService.getUser(userToken.getUsername());
+            // 获取token
+            JwtToken jwtToken= (JwtToken) authenticationToken;
+            //解析token
+            String password="123456";
+            ManagerVO manager = managerService.getUser("sunhao");
             if (manager == null) {
                 //没有该用户
-                return null;
+                throw  new UnknownAccountException("账户不存在");
             }
+            if (!manager.getPassword().equals(password)){
+                throw  new IncorrectCredentialsException("密码错误");
+            }
+            if (!manager.getState().equals("NORMAL")){
+                throw  new LockedAccountException("账户锁定");
+            }
+            //存入token
+
             // 完成认证
-            return new SimpleAuthenticationInfo(manager, manager.getPassword(), "MyRealm");
+            SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(jwtToken.getPrincipal(),jwtToken.getCredentials(), "MyRealm");
+            return info;
         }
 
     }

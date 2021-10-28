@@ -15,4 +15,11 @@ public interface MenuService {
      * @return
      */
     List<MenuVO> getMenuList(List<String> listMenuId);
+
+    /**
+     * 获取全部菜单
+     * @param id
+     * @return
+     */
+    List<MenuVO> getAll(String id);
 }

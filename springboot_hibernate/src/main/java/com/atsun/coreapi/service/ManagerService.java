@@ -33,4 +33,12 @@ public interface ManagerService {
      * @return
      */
     boolean deleteManager(String id);
+
+    /**
+     * 登录
+     * @param username
+     * @param password
+     * @return
+     */
+    String login(String username, String password);
 }

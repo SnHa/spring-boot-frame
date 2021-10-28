@@ -81,15 +81,6 @@ public class ManagerVO implements Serializable {
 
 
 
-    public void setState(Object state) {
-        if (state.equals("NORMAL")){
-            this.state = "正常";
-        }else if (state.equals("LOCKED")){
-            this.state="锁定";
-        }
-
-    }
-
     public void setSexual(Object sexual) {
         this.sexual = sexual instanceof String ? Sexual.getEnum((String) sexual) : (Sexual) sexual;
     }

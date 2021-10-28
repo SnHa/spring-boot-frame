@@ -44,7 +44,7 @@ public class ManagerComplexDaoImpl extends ComplexDaoImpl<Manager, String> imple
     @Override
     public ManagerVO getUserSql(String username) {
 
-        String sql = String.format("SELECT o.id AS id, o.username AS username, o.real_name AS realName, o.type AS type , o.sexual AS sexual, o.password AS password " +
+        String sql = String.format("SELECT o.id AS id, o.username AS username, o.real_name AS realName, o.type AS type , o.sexual AS sexual, o.password AS password, o.state AS state " +
                 "FROM %s o WHERE o.username=:username ", getTableName());
 
         Map<String, Object> params = new HashMap<>(5);
