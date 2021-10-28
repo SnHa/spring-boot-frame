@@ -13,13 +13,10 @@ import com.atsun.coreapi.service.ManagerService;
 import com.atsun.coreapi.vo.ManagerVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-
-import static com.atsun.coreapi.enums.TransCode.ACCOUNT_BAD_CREDENTIALS;
 
 /**
  * @author SH
@@ -93,16 +90,21 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public String login(String username, String password) {
+
         LoginDTO loginDTO = new LoginDTO();
+
         loginDTO.setUsername(username);
         loginDTO.setPassword(password);
+
         JwtToken jwtToken = new JwtToken();
 
         // 获取用户数据
         Subject currentUser = SecurityUtils.getSubject();
         //用户名和密码生成token
         String token = "1111";
+
         jwtToken.setToken(token);
+
         // 判断是否完成认证
         if (!currentUser.isAuthenticated()) {
             currentUser.login(jwtToken);

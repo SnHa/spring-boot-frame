@@ -1,5 +1,6 @@
 package com.atsun.coreapi.vo;
 
+import com.atsun.coreapi.enums.AccountState;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Sexual;
 import lombok.Data;
@@ -68,7 +69,7 @@ public class ManagerVO implements Serializable {
     /**
      * 账户状态
      */
-    private String state;
+    private AccountState state;
 
     /**
      * 最后登录时间
@@ -79,10 +80,12 @@ public class ManagerVO implements Serializable {
         this.type = type instanceof String ? ManagerType.getEnum((String) type) : (ManagerType) type;
     }
 
-
-
     public void setSexual(Object sexual) {
         this.sexual = sexual instanceof String ? Sexual.getEnum((String) sexual) : (Sexual) sexual;
+    }
+
+    public void setState(Object state) {
+        this.state = state instanceof String ? AccountState.getEnum((String) state) : (AccountState) state;
     }
 
 }
