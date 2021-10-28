@@ -4,6 +4,7 @@ import com.atsun.coreapi.dao.*;
 import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.service.MenuService;
 import com.atsun.coreapi.service.PermissionMenuService;
+import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.utils.TreeUtil;
 import com.atsun.coreapi.vo.ManagerVO;
 import com.atsun.coreapi.vo.MenuVO;
@@ -84,13 +85,19 @@ class ApplicationTests {
     }
     @Test
     void  menu(){
-        List<String> listRoleId = managerRoleSimpleDao.getRoleIds("1");
+       // List<MenuVO>  build= menuService.getAll("1");
+        TokenUtils tokenUtils = new TokenUtils();
+        ManagerVO managerVO = tokenUtils.validationToken("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaXNzIjoic2giLCJhdWQiOiJzdW5oYW8iLCJleHAiOjE2MzU0MDg5ODUsImlhdCI6MTYzNTQwODg2NX0.SYSdqOCeDjJ0Ox2LWyN5EphqtkP9dCzBmvudx2_bKSM");
+
+        System.out.println(managerVO);
+
+        /* List<String> listRoleId = managerRoleSimpleDao.getRoleIds("1");
         List<String> list =rolePermissionSimpleDao.getPermissionIds(listRoleId);
         List<String> listMenu = permissionSimpleDao.getListTypeMenu(list);
-        List<String> listMenuId=permissionMenuService.getListMenuId(listMenu);
+        List<String> listMenuId=permissionMenuService.getListMenuId(listMenu);*/
        // List<MenuVO> menus=menuService.getAll(listMenuId);
        // TreeUtil.build(menus);
-        System.out.println(listMenuId.get(0));
+      //  System.out.println(listMenuId.get(0));
        /* String path = menuSimpleDao.getMenuPath("用户中心");
         System.out.println("================");
         System.out.println(path);

@@ -35,9 +35,6 @@ public class MenuController  extends BaseController{
     @GetMapping("/select/{id}")
     public Object select(@PathVariable("id") String id) {
 
-        Subject subject = SecurityUtils.getSubject();
-        log.info((String) subject.getPrincipal());
-
         List<MenuVO>  build= menuService.getAll(id);
         return ok(build);
     }

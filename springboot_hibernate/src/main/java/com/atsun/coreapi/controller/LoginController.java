@@ -40,7 +40,6 @@ public class LoginController extends BaseController {
         String token = managerService.login(username, password);
         AccountLoginData accountLoginData = new AccountLoginData(token);
         accountLoginData.setToken(token);
-
         return ok(accountLoginData);
     }
 
