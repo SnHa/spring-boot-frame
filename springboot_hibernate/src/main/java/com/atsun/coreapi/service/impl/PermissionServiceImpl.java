@@ -3,8 +3,6 @@ package com.atsun.coreapi.service.impl;
 import com.atsun.coreapi.dao.MenuSimpleDao;
 import com.atsun.coreapi.dao.PermissionSimpleDao;
 import com.atsun.coreapi.service.PermissionService;
-import com.atsun.coreapi.vo.PermissionVO;
-import com.atsun.coreapi.vo.RolePermissionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

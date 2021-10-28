@@ -1,8 +1,5 @@
 package com.atsun.coreapi.service;
 
-import com.atsun.coreapi.vo.ManagerRoleVO;
-import com.atsun.coreapi.vo.RolePermissionVO;
-
 import java.util.List;
 
 /**
@@ -14,6 +11,6 @@ public interface RolePermissionService {
      * @param listRole
      * @return
      */
-    List<String> getListPermission(List<String> listRole);
+    List<String> getPermissionIds(List<String> listRole);
 
 }

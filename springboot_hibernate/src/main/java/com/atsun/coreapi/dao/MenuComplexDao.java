@@ -11,9 +11,8 @@ import java.util.List;
  */
 public interface MenuComplexDao extends ComplexDao<Menu, String> {
 
-
-
     List<PermissionVO> getMenuListV(List<String> list);
 
-    List<MenuVO> getListMenu(List<String> listMenuId);
+    List<MenuVO> getAll(List<String> listMenuId);
+
 }

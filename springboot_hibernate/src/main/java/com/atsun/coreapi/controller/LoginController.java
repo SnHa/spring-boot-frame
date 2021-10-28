@@ -34,19 +34,18 @@ public class LoginController extends BaseController {
     }
 
     @ApiOperation("登录")
-    @PostMapping("/login")
+    @PostMapping("login")
     public DataResponse<AccountLoginData> login(@RequestParam("username") String username,
                                                 @RequestParam("password") String password) {
         String token = managerService.login(username, password);
-
-        AccountLoginData accountLoginData = new AccountLoginData();
+        AccountLoginData accountLoginData = new AccountLoginData(token);
         accountLoginData.setToken(token);
 
         return ok(accountLoginData);
     }
 
     @ApiOperation("登出")
-    @DeleteMapping("/out")
+    @DeleteMapping("out")
     public Object out() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();

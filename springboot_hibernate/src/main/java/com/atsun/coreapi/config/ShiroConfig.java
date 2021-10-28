@@ -59,7 +59,6 @@ public class ShiroConfig  {
                 throw  new LockedAccountException("账户锁定");
             }
             //存入token
-//
             // 完成认证
             SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(jwtToken.getPrincipal(),jwtToken.getCredentials(), "MyRealm");
             return info;

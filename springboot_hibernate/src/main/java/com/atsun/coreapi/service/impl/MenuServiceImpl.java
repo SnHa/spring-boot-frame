@@ -15,38 +15,36 @@ import java.util.List;
 @Service
 public class MenuServiceImpl implements MenuService {
 
-    private final ManagerRoleService managerRoleService;
+    @Autowired
+    private ManagerRoleService managerRoleService;
 
-    private final RolePermissionService rolePermissionService;
+    @Autowired
+    private RolePermissionService rolePermissionService;
 
-    private final PermissionService permissionService;
+    @Autowired
+    private PermissionService permissionService;
 
-    private final PermissionMenuService permissionMenuService;
+    @Autowired
+    private PermissionMenuService permissionMenuService;
 
-    private final ManagerService managerService;
+    @Autowired
+    private ManagerService managerService;
 
-    private final MenuSimpleDao menuSimpleDao;
-
-    public MenuServiceImpl(ManagerRoleService managerRoleService, RolePermissionService rolePermissionService, PermissionService permissionService, PermissionMenuService permissionMenuService, ManagerService managerService, MenuSimpleDao menuSimpleDao) {
-        this.managerRoleService = managerRoleService;
-        this.rolePermissionService = rolePermissionService;
-        this.permissionService = permissionService;
-        this.permissionMenuService = permissionMenuService;
-        this.managerService = managerService;
-        this.menuSimpleDao = menuSimpleDao;
-    }
+    @Autowired
+    private MenuSimpleDao menuSimpleDao;
 
     @Override
     public List<MenuVO> getMenuList(List<String> listMenuId) {
-        return menuSimpleDao.getListMenu(listMenuId);
+      //  return menuSimpleDao.getListMenu(listMenuId);
+        return null;
     }
 
     @Override
     public List<MenuVO> getAll(String id) {
         // 根据id查询角色id信息
-        List<String> listRole = managerRoleService.getListRole(id);
+        List<String> listRole = managerRoleService.getRoleIds(id);
         // 根据角色id查询权限id
-        List<String> listPermission = rolePermissionService.getListPermission(listRole);
+        List<String> listPermission = rolePermissionService.getPermissionIds(listRole);
         // 根据权限id查询类型菜单的权限id
         List<String> listTypeMenu = permissionService.getListTypeMenu(listPermission);
         // 根据菜单类型的权限id查询菜单id

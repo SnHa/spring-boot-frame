@@ -1,7 +1,5 @@
 package com.atsun.coreapi.vo;
 
-import com.atsun.coreapi.enums.Scope;
-import com.atsun.coreapi.po.Menu;
 import lombok.Data;
 
 import java.util.ArrayList;

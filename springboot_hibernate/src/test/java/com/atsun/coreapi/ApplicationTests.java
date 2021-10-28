@@ -5,7 +5,9 @@ import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.service.MenuService;
 import com.atsun.coreapi.service.PermissionMenuService;
 import com.atsun.coreapi.utils.TreeUtil;
-import com.atsun.coreapi.vo.*;
+import com.atsun.coreapi.vo.ManagerVO;
+import com.atsun.coreapi.vo.MenuVO;
+import com.atsun.coreapi.vo.PermissionVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -71,23 +73,23 @@ class ApplicationTests {
     }
     @Test
     void listRoleId(){
-        List<String> listRoleId = managerRoleSimpleDao.getListRoleId("1");
+        List<String> listRoleId = managerRoleSimpleDao.getRoleIds("1");
         for (String mv:listRoleId) {
             System.out.println(mv);
         }
-        List<String> listPermission = rolePermissionSimpleDao.getListPermission(listRoleId);
+        List<String> listPermission = rolePermissionSimpleDao.getPermissionIds(listRoleId);
         for (String RP:listPermission) {
             System.out.println(RP);
         }
     }
     @Test
     void  menu(){
-        List<String> listRoleId = managerRoleSimpleDao.getListRoleId("1");
-        List<String> list =rolePermissionSimpleDao.getListPermission(listRoleId);
+        List<String> listRoleId = managerRoleSimpleDao.getRoleIds("1");
+        List<String> list =rolePermissionSimpleDao.getPermissionIds(listRoleId);
         List<String> listMenu = permissionSimpleDao.getListTypeMenu(list);
         List<String> listMenuId=permissionMenuService.getListMenuId(listMenu);
-        List<MenuVO> menus=menuService.getMenuList(listMenuId);
-        TreeUtil.build(menus);
+       // List<MenuVO> menus=menuService.getAll(listMenuId);
+       // TreeUtil.build(menus);
         System.out.println(listMenuId.get(0));
        /* String path = menuSimpleDao.getMenuPath("用户中心");
         System.out.println("================");
