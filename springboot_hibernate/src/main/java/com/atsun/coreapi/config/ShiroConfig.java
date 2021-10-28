@@ -61,7 +61,6 @@ public class ShiroConfig {
             if (!manager.getState().equals("NORMAL")) {
                 throw new LockedAccountException("账户锁定");
             }
-
             // 完成认证
             return new SimpleAuthenticationInfo(jwtToken.getPrincipal(), jwtToken.getCredentials(), manager.getUsername());
         }
