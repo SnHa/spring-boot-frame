@@ -8,6 +8,7 @@ import java.util.List;
 public interface PermissionMenuService {
     /**
      * 获取菜单id
+     *
      * @param listTypeMenu
      * @return
      */

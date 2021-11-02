@@ -7,7 +7,8 @@ import java.util.List;
  */
 public interface RolePermissionService {
     /**
-     * g根据id组查询权限id集合
+     * 根据id组查询权限id集合
+     *
      * @param listRole
      * @return
      */

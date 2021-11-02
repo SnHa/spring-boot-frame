@@ -11,6 +11,7 @@ public interface MenuService {
 
     /**
      * 获取菜单权限的菜单信息
+     *
      * @param listMenuId
      * @return
      */
@@ -18,8 +19,9 @@ public interface MenuService {
 
     /**
      * 获取全部菜单
-     * @param id
+     *
+     * @param token
      * @return
      */
-    List<MenuVO> getAll(String id);
+    List<MenuVO> getAll(String token);
 }

@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 public class MenuVO {
     /**
-     *
      * id
      */
     private String id;

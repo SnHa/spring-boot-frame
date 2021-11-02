@@ -1,5 +1,6 @@
 package com.atsun.coreapi.po;
 
+import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Scope;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,4 +47,7 @@ public class Role extends BaseSnowflakeIdModel {
         super(id);
     }
 
+    public void setScope(Object scope) {
+        this.scope = scope instanceof  String ? Scope.getEnum((String) scope): (Scope) scope;
+    }
 }

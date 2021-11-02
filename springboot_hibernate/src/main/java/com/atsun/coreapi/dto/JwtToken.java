@@ -22,7 +22,9 @@ public class JwtToken implements AuthenticationToken {
     }
 
     @Override
-    public Object getPrincipal() { return token; }
+    public Object getPrincipal() {
+        return token;
+    }
 
     @Override
     public Object getCredentials() {

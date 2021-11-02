@@ -1,20 +1,23 @@
-package com.atsun.coreapi.vo;
+package com.atsun.coreapi.dto;
 
+import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.PermissionType;
 import com.atsun.coreapi.enums.Scope;
+import com.atsun.coreapi.po.Menu;
+import com.atsun.coreapi.po.Permission;
 import lombok.Data;
 
-import java.util.ArrayList;
+import javax.persistence.*;
 import java.util.List;
 
-
 /**
- * @author HP
+ * @author SH
  */
 @Data
-public class PermissionVO {
+public class PermissionDTO {
+
     /**
-     * 权限id
+     * id
      */
     private String id;
 
@@ -28,25 +31,35 @@ public class PermissionVO {
      */
     private PermissionType type;
 
+    /**
+     * 权限
+     */
+    private String sn;
 
     /**
      * 父权限
      */
-    private String pid;
+    private Permission parentPermission;
 
     /**
      * 范围
      */
     private Scope scope;
 
+    /**
+     * 排序编号
+     */
+    private Integer orderNum;
 
     /**
      * 备注
      */
     private String remark;
 
-
-    private List<PermissionVO> children = new ArrayList<>();
+    /**
+     * 菜单id
+     */
+    List<String> listMenuId;
 
     public void setType(Object type) {
         this.type = type instanceof String ? PermissionType.valueOf((String) type) : (PermissionType) type;

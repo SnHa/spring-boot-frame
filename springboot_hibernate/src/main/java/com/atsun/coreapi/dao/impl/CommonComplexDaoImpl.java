@@ -7,6 +7,9 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author SH
+ */
 @Repository
 public class CommonComplexDaoImpl<T, ID extends Serializable> extends ComplexDaoImpl<T, ID> implements CommonComplexDao<T, ID> {
 

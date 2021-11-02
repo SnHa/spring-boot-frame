@@ -30,6 +30,9 @@ public class BaseController {
         return new NoDataResponse(false, transCode.getCode(), transCode.getMsg());
     }
 
+    protected DataResponse error() {
+        return new DataResponse(false,null,null);
+    }
     protected NoDataResponse error(TransCode transCode, String transDesc) {
         return new NoDataResponse(false, transCode.getCode(), StringUtils.defaultString(transDesc, transCode.getMsg()));
     }

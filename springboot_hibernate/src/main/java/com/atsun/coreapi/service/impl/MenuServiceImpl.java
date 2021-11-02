@@ -1,9 +1,15 @@
 package com.atsun.coreapi.service.impl;
 
 import com.atsun.coreapi.dao.MenuSimpleDao;
+import com.atsun.coreapi.dto.JwtToken;
 import com.atsun.coreapi.service.*;
+import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.utils.TreeUtil;
 import com.atsun.coreapi.vo.MenuVO;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,26 +18,54 @@ import java.util.List;
 /**
  * @author SH
  */
+@Slf4j
 @Service
 public class MenuServiceImpl implements MenuService {
 
-    @Autowired
     private ManagerRoleService managerRoleService;
 
-    @Autowired
     private RolePermissionService rolePermissionService;
 
-    @Autowired
     private PermissionService permissionService;
 
-    @Autowired
+
     private PermissionMenuService permissionMenuService;
 
-    @Autowired
+
     private ManagerService managerService;
 
-    @Autowired
+
     private MenuSimpleDao menuSimpleDao;
+
+    @Autowired
+    public void setManagerRoleService(ManagerRoleService managerRoleService) {
+        this.managerRoleService = managerRoleService;
+    }
+
+    @Autowired
+    public void setRolePermissionService(RolePermissionService rolePermissionService) {
+        this.rolePermissionService = rolePermissionService;
+    }
+
+    @Autowired
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+
+    @Autowired
+    public void setPermissionMenuService(PermissionMenuService permissionMenuService) {
+        this.permissionMenuService = permissionMenuService;
+    }
+
+    @Autowired
+    public void setManagerService(ManagerService managerService) {
+        this.managerService = managerService;
+    }
+
+    @Autowired
+    public void setMenuSimpleDao(MenuSimpleDao menuSimpleDao) {
+        this.menuSimpleDao = menuSimpleDao;
+    }
 
     @Override
     public List<MenuVO> getMenuList(List<String> listMenuId) {
@@ -39,7 +73,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<MenuVO> getAll(String id) {
+    public List<MenuVO> getAll(String token) {
+        // 解析token,得到用户id
+        TokenUtils tokenUtils = new TokenUtils();
+        String id = tokenUtils.validationToken(token).getId();
+        log.info("用户id是： " + id);
         // 根据id查询角色id信息
         List<String> listRole = managerRoleService.getRoleIds(id);
         // 根据角色id查询权限id

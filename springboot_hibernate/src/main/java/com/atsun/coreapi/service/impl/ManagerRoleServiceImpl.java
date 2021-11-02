@@ -13,8 +13,12 @@ import java.util.List;
 @Service
 public class ManagerRoleServiceImpl implements ManagerRoleService {
 
-    @Autowired
     private ManagerRoleSimpleDao managerRoleSimpleDao;
+
+    @Autowired
+    public void setManagerRoleSimpleDao(ManagerRoleSimpleDao managerRoleSimpleDao) {
+        this.managerRoleSimpleDao = managerRoleSimpleDao;
+    }
 
     @Override
     public List<String> getRoleIds(String managerId) {

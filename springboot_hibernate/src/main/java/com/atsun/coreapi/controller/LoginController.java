@@ -8,6 +8,7 @@ import com.atsun.coreapi.service.ManagerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
@@ -26,9 +27,9 @@ import static com.atsun.coreapi.enums.TransCode.ACCOUNT_LOGIN_EXCEPTION;
 @RequestMapping("/admin")
 public class LoginController extends BaseController {
 
-    @Autowired
     private ManagerService managerService;
 
+    @Autowired
     public void setManagerService(ManagerService managerService) {
         this.managerService = managerService;
     }
@@ -38,6 +39,10 @@ public class LoginController extends BaseController {
     public DataResponse<AccountLoginData> login(@RequestParam("username") String username,
                                                 @RequestParam("password") String password) {
         String token = managerService.login(username, password);
+
+        if (StringUtils.isBlank(token)) {
+            return error();
+        }
         AccountLoginData accountLoginData = new AccountLoginData(token);
         accountLoginData.setToken(token);
         return ok(accountLoginData);

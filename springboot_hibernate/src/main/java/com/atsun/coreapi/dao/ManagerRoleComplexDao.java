@@ -17,4 +17,17 @@ public interface ManagerRoleComplexDao extends ComplexDao<ManagerRole, String> {
      */
     List<String> getRoleIds(String managerId);
 
+    /**
+     * 根据用户id删除数据
+     * @param id
+     * @return
+     */
+    int deleteManagerId(String id);
+
+    /**
+     * 根据用户id进行删除
+     * @param id
+     * @return
+     */
+    int deleteRoleId(String id);
 }

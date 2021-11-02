@@ -6,10 +6,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.tomcat.util.codec.binary.Base64;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
 
+/**
+ * @author SH
+ */
 public class TokenUtils {
 
     private static final long serialVersionUID = -3L;
@@ -17,19 +21,6 @@ public class TokenUtils {
      * Token 有效时长 多少秒
      **/
     private static final Long EXPIRATION = 2 * 60L;
-
-    public static final String JWT_SECRET = "sun";
-
-
-
-/*    public static SecretKey generalKey() {
-
-        // 本地的密码解码
-        byte[] encodedKey = Base64.decodeBase64("JWT_SECRET");
-        // 根据给定的字节数组使用AES加密算法构造一个密钥
-        SecretKey key = new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
-        return key;
-    }*/
 
     public String createToken(ManagerVO managerVO) {
         try {
@@ -55,6 +46,7 @@ public class TokenUtils {
             return null;
         }
     }
+
     public ManagerVO validationToken(String token) {
         try {
             // 解密 Token，获取 Claims 主体

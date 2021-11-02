@@ -22,7 +22,7 @@ public class ManagerScopeServiceImpl implements ManagerScopeService {
 
     @Override
     public List<PermissionVO> getMenuList(List<String> list) {
-        return menuSimpleDao.getMenuListV(list);
+       return null;
     }
 
     @Override

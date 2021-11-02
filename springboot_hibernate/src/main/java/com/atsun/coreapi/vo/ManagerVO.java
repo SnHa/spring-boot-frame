@@ -80,7 +80,6 @@ public class ManagerVO implements Serializable {
     }
 
 
-
     public void setSexual(Object sexual) {
         this.sexual = sexual instanceof String ? Sexual.getEnum((String) sexual) : (Sexual) sexual;
     }

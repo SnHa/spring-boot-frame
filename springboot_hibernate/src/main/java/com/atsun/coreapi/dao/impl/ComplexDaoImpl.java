@@ -241,6 +241,11 @@ public class ComplexDaoImpl<T, ID extends Serializable> implements ComplexDao<T,
     }
 
     @Override
+    public int delete(String where, Map<String, Object> params) {
+        return executeSql(String.format("DELETE FROM %s o %s", getTableName(), StringUtils.defaultString(where)), params);
+    }
+
+    @Override
     public int delById(ID id) {
 
         Map<String, Object> params = new HashMap<>(4);
