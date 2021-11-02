@@ -11,7 +11,6 @@ import com.atsun.coreapi.po.PermissionMenu;
 import com.atsun.coreapi.service.PermissionService;
 import com.atsun.coreapi.utils.TreeUtil;
 import com.atsun.coreapi.vo.PermissionVO;
-import com.atsun.coreapi.vo.RoleVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,6 +100,7 @@ public class PermissionServiceImpl implements PermissionService {
         Permission save = permissionSimpleDao.save(permission);
 
         if (save == null) {
+            log.error("======权限添加失败=======");
             return false;
         }
 

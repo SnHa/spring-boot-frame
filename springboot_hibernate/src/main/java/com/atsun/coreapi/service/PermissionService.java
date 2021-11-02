@@ -53,6 +53,7 @@ public interface PermissionService {
 
     /**
      * 添加子菜单
+     *
      * @param permissionDTO
      * @return
      */
@@ -60,6 +61,7 @@ public interface PermissionService {
 
     /**
      * 获取全部的权限信息
+     *
      * @param page
      * @param size
      * @return

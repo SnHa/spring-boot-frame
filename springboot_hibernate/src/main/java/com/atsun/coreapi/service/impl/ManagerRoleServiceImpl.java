@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author HP
+ * @author SH
  */
 @Service
 public class ManagerRoleServiceImpl implements ManagerRoleService {

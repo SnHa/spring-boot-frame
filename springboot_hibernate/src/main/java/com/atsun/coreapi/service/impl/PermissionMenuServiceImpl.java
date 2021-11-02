@@ -12,8 +12,13 @@ import java.util.List;
  */
 @Service
 public class PermissionMenuServiceImpl implements PermissionMenuService {
-    @Autowired
+
     private PermissionMenuSimpleDao permissionMenuSimpleDao;
+
+    @Autowired
+    public void setPermissionMenuSimpleDao(PermissionMenuSimpleDao permissionMenuSimpleDao) {
+        this.permissionMenuSimpleDao = permissionMenuSimpleDao;
+    }
 
     @Override
     public List<String> getListMenuId(List<String> listTypeMenu) {
