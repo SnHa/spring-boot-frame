@@ -5,5 +5,5 @@ import com.atsun.coreapi.po.PermissionMenu;
 /**
  * @author SH
  */
-public class PermissionMenuSimpleComplexImplDao extends  ComplexDaoImpl<PermissionMenu,String>  {
+public class PermissionMenuSimpleComplexImplDao extends ComplexDaoImpl<PermissionMenu, String> {
 }

@@ -1,24 +1,45 @@
 package com.atsun.coreapi;
 
 import com.atsun.coreapi.dao.*;
+import com.atsun.coreapi.dto.ManagerDTO;
+import com.atsun.coreapi.dto.RoleDTO;
+import com.atsun.coreapi.enums.AccountState;
 import com.atsun.coreapi.po.Manager;
-import com.atsun.coreapi.service.MenuService;
-import com.atsun.coreapi.service.PermissionMenuService;
+import com.atsun.coreapi.po.Role;
+import com.atsun.coreapi.service.*;
 import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.utils.TreeUtil;
 import com.atsun.coreapi.vo.ManagerVO;
 import com.atsun.coreapi.vo.MenuVO;
 import com.atsun.coreapi.vo.PermissionVO;
+import com.atsun.coreapi.vo.RoleVO;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@Slf4j
 @SpringBootTest
 class ApplicationTests {
+    @Autowired
+    private ManagerRoleService managerRoleService;
 
+    @Autowired
+    private RolePermissionService rolePermissionService;
+
+    @Autowired
+    private PermissionService permissionService;
+
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private RoleSimpleDao roleSimpleDao;
     @Autowired
     private MenuSimpleDao menuSimpleDao;
     @Autowired
@@ -36,6 +57,8 @@ class ApplicationTests {
     @Autowired
     private MenuService menuService;
     @Autowired
+    private ManagerService managerService;
+    @Autowired
     public void setManagerSimpleDao(ManagerSimpleDao managerSimpleDao) {
         this.managerSimpleDao = managerSimpleDao;
     }
@@ -43,28 +66,11 @@ class ApplicationTests {
     @Test
     void contextLoads() {
 
-        //String sql = "SELECT * FROM t_manager tm WHERE tm.username=:username";
-/*
-        String sql="select * from t_manager tm where tm.username=?";
-        HashMap<String, Object> params = new HashMap<>();
-        params.put("username","sunhao");
 
-        ManagerVO vo = managerSimpleDao.getUserSql("sunhao");*/
-/*        System.out.println(vo);*/
-        List<ManagerVO> allManager = managerSimpleDao.getAll();
-        for (ManagerVO mv :allManager) {
-            System.out.println(mv.toString());
-        }
     }
     @Test
     void list(){
-        List<String> list = new ArrayList<>();
-        list.add("ORGANIZATION");
-        list.add("PLATFORM");
-        List<PermissionVO> menuList = menuSimpleDao.getMenuListV(list);
-        for (PermissionVO menu :menuList) {
-            System.out.println(menu.toString());
-        }
+
     }
 
     @Test
@@ -86,10 +92,11 @@ class ApplicationTests {
     @Test
     void  menu(){
        // List<MenuVO>  build= menuService.getAll("1");
-        TokenUtils tokenUtils = new TokenUtils();
+       /* TokenUtils tokenUtils = new TokenUtils();
         ManagerVO managerVO = tokenUtils.validationToken("eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxIiwiaXNzIjoic2giLCJhdWQiOiJzdW5oYW8iLCJleHAiOjE2MzU0MDg5ODUsImlhdCI6MTYzNTQwODg2NX0.SYSdqOCeDjJ0Ox2LWyN5EphqtkP9dCzBmvudx2_bKSM");
+*/
 
-        System.out.println(managerVO);
+        //System.out.println(managerVO);
 
         /* List<String> listRoleId = managerRoleSimpleDao.getRoleIds("1");
         List<String> list =rolePermissionSimpleDao.getPermissionIds(listRoleId);
@@ -108,23 +115,105 @@ class ApplicationTests {
         }*/
     }
     @Test
-    void test(){
-        Manager manager = new Manager();
-        System.out.println(manager.getId());
-        manager.setTokenVer(1111);
-        manager.setEmail("784578031@qq.com");
+    void add(){
+        ManagerDTO manager = new ManagerDTO();
         manager.setPassword("123456");
         manager.setRealName("李四1");
         manager.setUsername("lis11i");
-        Manager save = managerSimpleDao.save(manager);
+        manager.setType("SUPER");
+        manager.setState("NORMAL");
+        manager.setSexual("MALE");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        manager.setListId(list);
+        boolean save = managerService.addManager(manager);
         System.out.println(save);
     }
     @Test
     void delete(){
-        try {
-            managerSimpleDao.deleteById("10");
-        } catch (Exception e) {
-            System.out.println("三处失败");
+            Boolean flag = managerService.deleteManager("1453969475828187136");
+            System.out.println(flag);
+    }
+
+    @Test
+    void update(){
+        ManagerDTO manager = new ManagerDTO();
+        manager.setId("1454000576776896512");
+        manager.setPassword("784578031");
+        manager.setRealName("李四修改版");
+        manager.setUsername("lis11ixiugai");
+        manager.setType("SUPER");
+        manager.setState("NORMAL");
+        manager.setSexual("FEMALE");
+        ArrayList<String> list = new ArrayList<>();
+        list.add("1");
+        list.add("2");
+        list.add("3");
+        manager.setListId(list);
+        Boolean update = managerService.update(manager);
+        System.out.println(update);
+    }
+
+    @Test
+    void  query(){
+        ManagerDTO managerDTO = new ManagerDTO();
+        managerDTO.setPage(1);
+        managerDTO.setSize(3);
+        managerDTO.setUsername("n");
+        managerDTO.setState("NORMAL");
+        List<ManagerVO> manager= managerSimpleDao.getPageManager(managerDTO);
+        System.out.println(manager.get(0));
+        System.out.println(manager.get(1));
+    }
+
+    @Test
+    void selectRole(){
+        List<RoleVO> all = roleSimpleDao.getAll(1, 2);
+        for (RoleVO r: all) {
+            System.out.println(r);
+        }
+    }
+
+    @Test
+    void  addRole(){
+        RoleDTO roleDTO = new RoleDTO();
+        roleDTO.setName("添加测试");
+        roleDTO.setRemark("这就是一个测试");
+        roleDTO.setScope("PLATFORM");
+        Boolean add = roleService.add(roleDTO);
+
+    }
+
+    @Test
+    void  updateRole(){
+        RoleDTO roleDTO = new RoleDTO();
+        roleDTO.setId("1455091395642523648");
+        roleDTO.setName("修改测试");
+        roleDTO.setRemark("备注数据");
+        roleDTO.setScope("PLATFORM");
+        Boolean update = roleService.update(roleDTO);
+    }
+    @Test
+    void  te(){
+
+        List<String> listRole = managerRoleService.getRoleIds("1");
+        Set<String> listName = roleService.listName(listRole);
+        // 查询授权信息
+        // 根据角色id查询权限id
+        List<String> listPermission = rolePermissionService.getPermissionIds(listRole);
+        // 根据权限id查询sn
+        Set<String> listSn = permissionService.getListSn(listPermission);
+        Set<String> sn = new HashSet<>();
+        for (String s : listSn) {
+            String[] strings = s.split(",");
+            for (int i = 0; i < strings.length; i++) {
+                sn.add(strings[i]);
+            }
+        }
+
+        for (String s1:sn) {
+            System.out.println(s1);
         }
     }
 }

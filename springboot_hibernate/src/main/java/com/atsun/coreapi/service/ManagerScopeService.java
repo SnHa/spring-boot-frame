@@ -10,6 +10,7 @@ import java.util.List;
 public interface ManagerScopeService {
     /**
      * 查询用户能获取的菜单
+     *
      * @param list
      * @return
      */
@@ -17,6 +18,7 @@ public interface ManagerScopeService {
 
     /**
      * 根据id查询范围
+     *
      * @param id
      * @return
      */

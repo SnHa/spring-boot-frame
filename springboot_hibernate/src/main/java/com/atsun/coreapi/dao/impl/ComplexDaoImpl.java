@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author LD
  */
 @Repository
-@Transactional(readOnly = true, rollbackFor = Exception.class)
+@Transactional(readOnly = false, rollbackFor = Exception.class)
 public class ComplexDaoImpl<T, ID extends Serializable> implements ComplexDao<T, ID> {
 
     @PersistenceContext
@@ -238,6 +238,11 @@ public class ComplexDaoImpl<T, ID extends Serializable> implements ComplexDao<T,
     @Override
     public int del(String where, Map<String, Object> params) {
         return executeHql(String.format("DELETE FROM %s o %s", getClassName(), StringUtils.defaultString(where)), params);
+    }
+
+    @Override
+    public int delete(String where, Map<String, Object> params) {
+        return executeSql(String.format("DELETE FROM %s o %s", getTableName(), StringUtils.defaultString(where)), params);
     }
 
     @Override

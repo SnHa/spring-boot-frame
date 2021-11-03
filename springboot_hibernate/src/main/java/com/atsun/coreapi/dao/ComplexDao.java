@@ -39,6 +39,14 @@ public interface ComplexDao<T, ID extends Serializable> {
 
     int del(String where, Map<String, Object> params);
 
+    /**
+     * 根据sql条件删除
+     * @param where
+     * @param params
+     * @return
+     */
+    int delete(String where, Map<String, Object> params);
+
     int delById(ID id);
 
     int delByIds(List<ID> ids);

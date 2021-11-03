@@ -7,8 +7,10 @@ import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.vo.ManagerVO;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
+import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
@@ -26,8 +28,12 @@ import java.util.Map;
 @Configuration
 public class ShiroConfig {
 
-    @Autowired
     private ManagerService managerService;
+
+    @Autowired
+    public void setManagerService(ManagerService managerService) {
+        this.managerService = managerService;
+    }
 
     public class MyRealm extends AuthorizingRealm {
 
@@ -38,17 +44,24 @@ public class ShiroConfig {
 
         @Override
         protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+            System.out.println("======" + "授权开始" + "=====");
+
             // 授权
-            Object primaryPrincipal = principalCollection.getPrimaryPrincipal();
-            System.out.println(primaryPrincipal);
-            return null;
+            String token = (String) principalCollection.getPrimaryPrincipal();
+            // 解析token 得到用户id
+            TokenUtils tokenUtils = new TokenUtils();
+            String id = tokenUtils.validationToken(token).getId();
+
+            // 查询用户的角色，授权返回AuthorizationInfo类型
+            AuthorizationInfo info = managerService.authorizationInfo(id);
+            return info;
         }
 
         @Override
         protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
             // 认证
             // 获取token
-           JwtToken jwtToken= (JwtToken) authenticationToken;
+            JwtToken jwtToken = (JwtToken) authenticationToken;
             String token = jwtToken.getToken();
             //解析token
             TokenUtils tokenUtils = new TokenUtils();
@@ -98,8 +111,21 @@ public class ShiroConfig {
         //配置路径过滤器 anthc表示需要登录后才能进入
         filterMap.put("/info/**", "auth");
         filterMap.put("/menu/**", "auth");
-
+        filterMap.put("/permission/**", "auth");
         factoryBean.setFilterChainDefinitionMap(filterMap);
         return factoryBean;
+    }
+
+    /**
+     * @param getSecurityManager
+     * @return AuthorizationAttributeSourceAdvisor
+     * @Title: authorizationAttributeSourceAdvisor
+     * @Description:开启shiro提供的权限相关的注解
+     **/
+    @Bean
+    public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager getSecurityManager) {
+        AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
+        authorizationAttributeSourceAdvisor.setSecurityManager(getSecurityManager);
+        return authorizationAttributeSourceAdvisor;
     }
 }

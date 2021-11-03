@@ -13,8 +13,12 @@ import java.util.List;
 @Service
 public class RolePermissionServiceImpl implements RolePermissionService {
 
-    @Autowired
     private RolePermissionSimpleDao rolePermissionSimpleDao;
+
+    @Autowired
+    public void setRolePermissionSimpleDao(RolePermissionSimpleDao rolePermissionSimpleDao) {
+        this.rolePermissionSimpleDao = rolePermissionSimpleDao;
+    }
 
     @Override
     public List<String> getPermissionIds(List<String> roleIds) {

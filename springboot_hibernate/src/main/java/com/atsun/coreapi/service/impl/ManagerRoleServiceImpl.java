@@ -8,13 +8,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * @author HP
+ * @author SH
  */
 @Service
 public class ManagerRoleServiceImpl implements ManagerRoleService {
 
-    @Autowired
     private ManagerRoleSimpleDao managerRoleSimpleDao;
+
+    @Autowired
+    public void setManagerRoleSimpleDao(ManagerRoleSimpleDao managerRoleSimpleDao) {
+        this.managerRoleSimpleDao = managerRoleSimpleDao;
+    }
 
     @Override
     public List<String> getRoleIds(String managerId) {

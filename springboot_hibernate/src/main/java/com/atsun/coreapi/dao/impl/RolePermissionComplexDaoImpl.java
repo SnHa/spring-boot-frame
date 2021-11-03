@@ -23,4 +23,24 @@ public class RolePermissionComplexDaoImpl extends ComplexDaoImpl<RolePermission,
         return super.getListBySql(sql, params, null, String.class);
     }
 
+    @Override
+    public int deleteRoleId(String id) {
+        String sql = "WHERE o.role_id=:roleId";
+
+        HashMap<String, Object> params = new HashMap<>(5);
+        params.put("roleId", id);
+
+        return super.delete(sql, params);
+    }
+
+    @Override
+    public int deletePermission(String id) {
+        String sql = "WHERE o.permission_id=:permissionId";
+
+        HashMap<String, Object> params = new HashMap<>(5);
+        params.put("permissionId", id);
+
+        return super.delete(sql, params);
+    }
+
 }

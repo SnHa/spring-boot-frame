@@ -15,14 +15,24 @@ import java.util.List;
 @Service
 public class ManagerScopeServiceImpl implements ManagerScopeService {
 
-    @Autowired
+
     private MenuSimpleDao menuSimpleDao;
-    @Autowired
+
     private ManagerScopeSimpleDao managerScopeSimpleDao;
+
+    @Autowired
+    public void setMenuSimpleDao(MenuSimpleDao menuSimpleDao) {
+        this.menuSimpleDao = menuSimpleDao;
+    }
+
+    @Autowired
+    public void setManagerScopeSimpleDao(ManagerScopeSimpleDao managerScopeSimpleDao) {
+        this.managerScopeSimpleDao = managerScopeSimpleDao;
+    }
 
     @Override
     public List<PermissionVO> getMenuList(List<String> list) {
-        return menuSimpleDao.getMenuListV(list);
+        return null;
     }
 
     @Override

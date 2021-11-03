@@ -3,6 +3,7 @@ package com.atsun.coreapi.dao.impl;
 import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.ManagerComplexDao;
+import com.atsun.coreapi.dto.ManagerDTO;
 import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.po.BaseModel;
 import com.atsun.coreapi.po.Manager;
@@ -14,6 +15,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author HP
+ */
 @Repository
 public class ManagerComplexDaoImpl extends ComplexDaoImpl<Manager, String> implements ManagerComplexDao {
 
@@ -105,12 +109,47 @@ public class ManagerComplexDaoImpl extends ComplexDaoImpl<Manager, String> imple
     }
 
     @Override
-    public List<ManagerVO> getAll() {
+    public List<ManagerVO> getAll(Page page) {
 
         String sql = "SELECT o.id AS id, o.username AS username, o.real_name AS realName, o.last_login_datetime AS lastLoginDatetime, " +
                 " o.type AS type, o.state AS state FROM t_manager o ";
 
-        return super.getListBySql(sql, null, null, ManagerVO.class);
+        return super.getPageListBySql(sql, null, null, page, ManagerVO.class);
     }
+
+    @Override
+    public String getName(String username) {
+        String sql = "SELECT o.username  FROM t_manager o WHERE username LIKE :username";
+
+        HashMap<String, Object> params = new HashMap<>(5);
+        params.put("username", username);
+
+        return super.getSingleResultBySql(sql, params, String.class);
+    }
+
+    @Override
+    public List<ManagerVO> getPageManager(ManagerDTO managerDTO) {
+
+        String sql = "SELECT o.id AS id, o.username AS username, o.real_name AS realName, o.last_login_datetime AS lastLoginDatetime," +
+                " o.type AS type, o.state AS state  FROM t_manager o WHERE ";
+
+        Page page = new Page();
+        page.setPageNumber(managerDTO.getPage());
+        page.setPageSize(managerDTO.getSize());
+
+        HashMap<String, Object> params = new HashMap<>(5);
+
+        if (managerDTO.getUsername() != null) {
+            params.put("username", "%"+managerDTO.getUsername()+"%");
+            sql += " o.username LIKE :username ";
+        }
+        if (managerDTO.getState() != null) {
+            params.put("state", managerDTO.getState());
+            sql += "AND o.state LIKE :state  ";
+        }
+
+        return super.getPageListBySql(sql, params, null, page, ManagerVO.class);
+    }
+
 
 }

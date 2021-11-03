@@ -3,6 +3,10 @@ package com.atsun.coreapi.vo;
 import com.atsun.coreapi.enums.Scope;
 import com.atsun.coreapi.po.Manager;
 import lombok.Data;
+
+/**
+ * @author SH
+ */
 @Data
 public class ManagerScopeVO {
 

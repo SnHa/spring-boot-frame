@@ -2,6 +2,9 @@ package com.atsun.coreapi.dao;
 
 import java.io.Serializable;
 
+/**
+ * @author SH
+ */
 public interface CommonComplexDao<T, ID extends Serializable> extends ComplexDao<T, ID> {
 
     /**
