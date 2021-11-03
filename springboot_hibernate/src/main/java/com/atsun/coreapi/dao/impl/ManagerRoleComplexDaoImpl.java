@@ -25,22 +25,23 @@ public class ManagerRoleComplexDaoImpl extends ComplexDaoImpl<ManagerRole, Strin
     }
 
     @Override
-    public int deleteManagerId(String id) {
+    public int deleteByManagerId(String managerId) {
 
-        String where=" WHERE o.manager_id =:managerId ";
+        String where = "WHERE o.manager_id=:managerId ";
 
         HashMap<String, Object> params = new HashMap<>(5);
-        params.put("managerId",id);
+        params.put("managerId", managerId);
 
-        return super.delete(where,params);
+        return super.delete(where, params);
     }
 
     @Override
-    public int deleteRoleId(String id) {
-        String where=" WHERE o.role_id =:roleId ";
+    public int deleteByRoleId(String roleId) {
+
+        String where = "WHERE o.role_id=:roleId ";
 
         HashMap<String, Object> params = new HashMap<>(5);
-        params.put("roleId",id);
+        params.put("roleId", roleId);
 
         return super.delete(where, params);
     }

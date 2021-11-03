@@ -7,7 +7,6 @@ import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.vo.ManagerVO;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
-import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
@@ -66,7 +65,7 @@ public class ShiroConfig {
             //解析token
             TokenUtils tokenUtils = new TokenUtils();
             ManagerVO managerUser = tokenUtils.validationToken(token);
-            ManagerVO manager = managerService.getUser(managerUser.getUsername());
+            ManagerVO manager = managerService.get(managerUser.getUsername());
             if (manager == null) {
                 //没有该用户
                 throw new UnknownAccountException("账户不存在");

@@ -108,7 +108,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Boolean delete(String id) {
         // 根据角色id,角色——用户表进行删除
-        int m = managerRoleSimpleDao.deleteRoleId(id);
+        int m = managerRoleSimpleDao.deleteByRoleId(id);
         if (m != 1) {
             return false;
         }

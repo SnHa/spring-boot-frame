@@ -3,7 +3,7 @@ package com.atsun.coreapi.controller;
 import com.atsun.coreapi.bean.DataResponse;
 import com.atsun.coreapi.bean.NoDataResponse;
 import com.atsun.coreapi.dto.MenuDTO;
-import com.atsun.coreapi.service.*;
+import com.atsun.coreapi.service.MenuService;
 import com.atsun.coreapi.vo.MenuVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

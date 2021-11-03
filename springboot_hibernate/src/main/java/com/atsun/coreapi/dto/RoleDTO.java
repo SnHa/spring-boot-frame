@@ -3,9 +3,6 @@ package com.atsun.coreapi.dto;
 import com.atsun.coreapi.enums.Scope;
 import lombok.Data;
 
-import javax.persistence.Column;
-import java.util.Date;
-
 /**
  * @author SH
  */

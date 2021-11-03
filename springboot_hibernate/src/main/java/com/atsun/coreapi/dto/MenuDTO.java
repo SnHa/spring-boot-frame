@@ -3,9 +3,6 @@ package com.atsun.coreapi.dto;
 import com.atsun.coreapi.enums.Scope;
 import com.atsun.coreapi.po.Menu;
 import lombok.Data;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
 
 /**
  * @author SH

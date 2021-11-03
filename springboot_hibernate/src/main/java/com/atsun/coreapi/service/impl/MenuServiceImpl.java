@@ -1,19 +1,14 @@
 package com.atsun.coreapi.service.impl;
 
 import com.atsun.coreapi.dao.MenuSimpleDao;
-import com.atsun.coreapi.dto.JwtToken;
 import com.atsun.coreapi.dto.MenuDTO;
 import com.atsun.coreapi.po.Menu;
 import com.atsun.coreapi.service.*;
 import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.utils.TreeUtil;
 import com.atsun.coreapi.vo.MenuVO;
-import com.atsun.coreapi.vo.PermissionVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

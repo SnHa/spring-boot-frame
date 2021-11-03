@@ -19,15 +19,17 @@ public interface ManagerRoleComplexDao extends ComplexDao<ManagerRole, String> {
 
     /**
      * 根据用户id删除数据
-     * @param id
+     *
+     * @param managerId
      * @return
      */
-    int deleteManagerId(String id);
+    int deleteByManagerId(String managerId);
 
     /**
      * 根据用户id进行删除
-     * @param id
+     *
+     * @param roleId
      * @return
      */
-    int deleteRoleId(String id);
+    int deleteByRoleId(String roleId);
 }

@@ -5,19 +5,21 @@ import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Sexual;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
-
 
 /**
  * @author HP
  */
 @Data
-public class ManagerDTO {
+public class ManagerDTO implements Serializable {
+
+    private static final long serialVersionUID = 6582022859321198158L;
 
     /**
      * id
      */
-    private  String id;
+    private String id;
 
     /**
      * 用户名
@@ -33,6 +35,7 @@ public class ManagerDTO {
      * 真实姓名
      */
     private String realName;
+
     /**
      * 类型
      */
@@ -46,34 +49,11 @@ public class ManagerDTO {
     /**
      * 状态
      */
-
     private AccountState state;
 
     /**
      * 角色
      */
-    public List<String> listId;
+    public List<String> roleIds;
 
-    /**
-     * 当前页
-     */
-    private Integer page;
-
-    /**
-     * 每页记录条数
-     */
-    private  Integer size;
-
-
-    public void setType(Object type) {
-        this.type = type instanceof  String ? ManagerType.getEnum((String) type) : (ManagerType) type;
-    }
-
-    public void setSexual(Object sexual) {
-        this.sexual = sexual instanceof  String ? Sexual.getEnum((String) sexual) : (Sexual) sexual;
-    }
-
-    public void setState(Object state) {
-        this.state = state instanceof  String ? AccountState.getEnum((String) state) : (AccountState) state;
-    }
 }

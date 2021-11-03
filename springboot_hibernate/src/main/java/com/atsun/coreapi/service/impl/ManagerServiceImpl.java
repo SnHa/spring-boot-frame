@@ -1,13 +1,12 @@
 package com.atsun.coreapi.service.impl;
 
-import com.atsun.coreapi.bean.Page;
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.ManagerRoleSimpleDao;
 import com.atsun.coreapi.dao.ManagerSimpleDao;
-import com.atsun.coreapi.dao.RoleSimpleDao;
-import com.atsun.coreapi.dto.JwtToken;
 import com.atsun.coreapi.dto.ManagerDTO;
-import com.atsun.coreapi.enums.AccountState;
-import com.atsun.coreapi.enums.ManagerType;
+import com.atsun.coreapi.dto.ManagerPageDTO;
+import com.atsun.coreapi.enums.TransCode;
+import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.po.ManagerRole;
 import com.atsun.coreapi.po.Role;
@@ -29,34 +28,16 @@ import java.util.*;
  * @author SH
  */
 @Slf4j
-@Transactional(rollbackFor = Exception.class)
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 @Service
 public class ManagerServiceImpl implements ManagerService {
 
-    private PermissionService permissionService;
-
-    private RolePermissionService rolePermissionService;
-
-    private RoleService roleService;
-
-    private ManagerRoleService managerRoleService;
-
     private ManagerRoleSimpleDao managerRoleSimpleDao;
-
     private ManagerSimpleDao managerSimpleDao;
-
-    private RoleSimpleDao roleSimpleDao;
-
-    @Autowired
-    public void setPermissionService(PermissionService permissionService) {
-        this.permissionService = permissionService;
-    }
-
-    @Autowired
-    public void setRolePermissionService(RolePermissionService rolePermissionService) {
-        this.rolePermissionService = rolePermissionService;
-    }
-
+    private PermissionService permissionService;
+    private RolePermissionService rolePermissionService;
+    private RoleService roleService;
+    private ManagerRoleService managerRoleService;
 
     @Autowired
     public void setManagerRoleSimpleDao(ManagerRoleSimpleDao managerRoleSimpleDao) {
@@ -69,8 +50,13 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Autowired
-    public void setRoleSimpleDao(RoleSimpleDao roleSimpleDao) {
-        this.roleSimpleDao = roleSimpleDao;
+    public void setPermissionService(PermissionService permissionService) {
+        this.permissionService = permissionService;
+    }
+
+    @Autowired
+    public void setRolePermissionService(RolePermissionService rolePermissionService) {
+        this.rolePermissionService = rolePermissionService;
     }
 
     @Autowired
@@ -84,142 +70,90 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public ManagerVO getUser(String username) {
-        return managerSimpleDao.getUserSql(username);
+    public ManagerVO get(String username) {
+        return managerSimpleDao.get(username);
     }
 
+    @Transactional(rollbackFor = RuntimeException.class)
     @Override
-    public List<ManagerVO> getAllManager(Page page) {
-        return managerSimpleDao.getAll(page);
-    }
-
-    @Override
-    public Boolean addManager(ManagerDTO managerDTO) {
+    public void edit(ManagerDTO dto) throws TransException {
 
         //查询用户名是否存在
-        String name = managerSimpleDao.getName(managerDTO.getUsername());
+        String name = managerSimpleDao.getUsername(dto.getUsername(), dto.getId());
+
         if (!StringUtils.isBlank(name)) {
-            log.error("=========用户名存在==========");
-            return false;
+            throw new TransException(TransCode.CUSTOM_EXCEPTION_MSG, "用户名已经存在");
         }
 
         // 设置用户信息
-        Manager manager = new Manager();
+        Manager m;
 
-        manager.setUsername(managerDTO.getUsername());
-        manager.setRealName(managerDTO.getRealName());
-        manager.setPassword(managerDTO.getPassword());
-        manager.setState(managerDTO.getState());
-        manager.setType(managerDTO.getType());
-        manager.setCreateDatetime(new Date());
-        manager.setUpdateDatetime(new Date());
+        if (StringUtils.isNotBlank(dto.getId())) {
+            Optional<Manager> o = managerSimpleDao.findById(dto.getId());
+            if (!o.isPresent()) {
+                throw new TransException(TransCode.RECORD_NOT_EXIST);
+            }
+            m = o.get();
 
-        Manager m = managerSimpleDao.save(manager);
-        // 根据id查询用户角色信息
-        List<String> listId = managerDTO.getListId();
-        List<Role> listRole = roleSimpleDao.getListRole(listId);
-
-        //向角色和用户关联表插入数据
-        for (Role r : listRole) {
-            ManagerRole managerRole = new ManagerRole();
-            managerRole.setManager(m);
-            managerRole.setRole(r);
-            //创建-跟新时间
-            managerRole.setCreateDatetime(new Date());
-            managerRole.setUpdateDatetime(new Date());
-
-            managerRoleSimpleDao.save(managerRole);
+            managerRoleSimpleDao.deleteByManagerId(dto.getId());
+            managerRoleSimpleDao.flush();
+        } else {
+            m = new Manager();
         }
-        log.info("===========用户数据添加成功=========");
-        return true;
+
+        m.setUsername(dto.getUsername());
+        m.setRealName(dto.getRealName());
+        m.setPassword(dto.getPassword());
+        m.setState(dto.getState());
+        m.setType(dto.getType());
+
+        managerSimpleDao.saveAndFlush(m);
+
+        List<ManagerRole> mrs = new ArrayList<>();
+
+        dto.getRoleIds().forEach(roleId -> mrs.add(new ManagerRole(m, new Role(roleId))));
+
+        if (!mrs.isEmpty()) {
+            managerRoleSimpleDao.saveAll(mrs);
+        }
     }
 
     @Override
-    public boolean deleteManager(String id) {
+    public void delete(String id) throws TransException {
 
         // 判断用户id是否存在
-        Manager manager = managerSimpleDao.getById(id);
-        if (manager == null) {
-            log.error("=========用户id不存在==========");
-            return false;
-        }
-        // 删除操作
-        managerRoleSimpleDao.deleteManagerId(id);
-        managerSimpleDao.deleteById(id);
+        Optional<Manager> o = managerSimpleDao.findById(id);
 
-        log.info("========删除成功=======");
-        return true;
+        if (!o.isPresent()) {
+            throw new TransException(TransCode.RECORD_NOT_EXIST);
+        }
+
+        // 删除操作
+        managerRoleSimpleDao.deleteByManagerId(id);
+        managerSimpleDao.delById(id);
     }
 
     @Override
-    public String login(String username, String password) {
+    public String login(String username, String password) throws TransException {
 
         // 获取用户数据
-        ManagerVO manager = this.getUser(username);
+        ManagerVO manager = get(username);
 
-        if (manager == null) {
-            log.info("用户名不存在");
+        if (null == manager) {
+            throw new TransException(TransCode.CUSTOM_EXCEPTION_MSG, "用户名不存在");
         }
+
+        //TODO: 密码未加密
         if (!manager.getPassword().equals(password)) {
-            log.info("密码错误");
+            throw new TransException(TransCode.CUSTOM_EXCEPTION_MSG, "密码错误");
         }
-        // 生成token
-        TokenUtils tokenUtils = new TokenUtils();
-        String token = tokenUtils.createToken(manager);
 
-        log.info("=======token:" + token + "=========");
-        return token;
+        return new TokenUtils().createToken(manager);
     }
 
     @Override
-    public Boolean update(ManagerDTO managerDTO) {
-
-        //查询用户是存在
-        Manager manager = managerSimpleDao.getById(managerDTO.getId());
-        if (manager == null) {
-
-            log.error("用户不存在");
-            return false;
-        }
-        // 设置跟新参数
-        manager.setState(managerDTO.getState());
-        manager.setUsername(manager.getUsername());
-        manager.setPassword(managerDTO.getPassword());
-        manager.setRealName(managerDTO.getRealName());
-        manager.setSexual(managerDTO.getSexual());
-        manager.setType(managerDTO.getType());
-        manager.setUpdateDatetime(new Date());
-
-        managerSimpleDao.save(manager);
-        // 根据id查询用户角色信息
-        List<String> listId = managerDTO.getListId();
-        List<Role> listRole = roleSimpleDao.getListRole(listId);
-
-        // 删除用户原有的角色
-        managerRoleSimpleDao.deleteManagerId(managerDTO.getId());
-
-        // 向角色和用户关联表插入数据
-        for (Role r : listRole) {
-            ManagerRole managerRole = new ManagerRole();
-            managerRole.setManager(manager);
-            managerRole.setRole(r);
-            //创建-跟新时间
-            managerRole.setCreateDatetime(new Date());
-            managerRole.setUpdateDatetime(new Date());
-
-            managerRoleSimpleDao.save(managerRole);
-        }
-
-        log.info("========修改成功=========");
-        return true;
-    }
-
-    @Override
-    public List<ManagerVO> conditionSelect(ManagerDTO managerDTO) {
-
-        List<ManagerVO> manager = managerSimpleDao.getPageManager(managerDTO);
-
-        return manager;
+    public PageBean<ManagerVO> getPage(ManagerPageDTO dto) throws TransException {
+        return managerSimpleDao.getPage(dto.getUsername(), dto.getState(), dto.getPage());
     }
 
     @Override

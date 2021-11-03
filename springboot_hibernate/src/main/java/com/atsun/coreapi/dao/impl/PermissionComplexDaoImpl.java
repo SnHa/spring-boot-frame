@@ -4,7 +4,6 @@ import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.dao.PermissionComplexDao;
 import com.atsun.coreapi.po.Permission;
 import com.atsun.coreapi.vo.PermissionVO;
-import com.atsun.coreapi.vo.RoleVO;
 
 import java.util.HashMap;
 import java.util.List;

@@ -2,9 +2,7 @@ package com.atsun.coreapi.vo;
 
 import com.atsun.coreapi.enums.Scope;
 import lombok.Data;
-import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 import java.util.Date;
 
 

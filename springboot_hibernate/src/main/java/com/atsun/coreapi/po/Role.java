@@ -1,6 +1,5 @@
 package com.atsun.coreapi.po;
 
-import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.Scope;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

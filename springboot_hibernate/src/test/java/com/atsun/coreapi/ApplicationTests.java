@@ -3,18 +3,10 @@ package com.atsun.coreapi;
 import com.atsun.coreapi.dao.*;
 import com.atsun.coreapi.dto.ManagerDTO;
 import com.atsun.coreapi.dto.RoleDTO;
-import com.atsun.coreapi.enums.AccountState;
-import com.atsun.coreapi.po.Manager;
-import com.atsun.coreapi.po.Role;
 import com.atsun.coreapi.service.*;
-import com.atsun.coreapi.utils.TokenUtils;
-import com.atsun.coreapi.utils.TreeUtil;
 import com.atsun.coreapi.vo.ManagerVO;
-import com.atsun.coreapi.vo.MenuVO;
-import com.atsun.coreapi.vo.PermissionVO;
 import com.atsun.coreapi.vo.RoleVO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.subject.Subject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -126,13 +118,13 @@ class ApplicationTests {
         ArrayList<String> list = new ArrayList<>();
         list.add("1");
         list.add("2");
-        manager.setListId(list);
-        boolean save = managerService.addManager(manager);
+        manager.setRoleIds(list);
+        boolean save = managerService.edit(manager);
         System.out.println(save);
     }
     @Test
     void delete(){
-            Boolean flag = managerService.deleteManager("1453969475828187136");
+            Boolean flag = managerService.delete("1453969475828187136");
             System.out.println(flag);
     }
 
@@ -150,7 +142,7 @@ class ApplicationTests {
         list.add("1");
         list.add("2");
         list.add("3");
-        manager.setListId(list);
+        manager.setRoleIds(list);
         Boolean update = managerService.update(manager);
         System.out.println(update);
     }
@@ -162,7 +154,7 @@ class ApplicationTests {
         managerDTO.setSize(3);
         managerDTO.setUsername("n");
         managerDTO.setState("NORMAL");
-        List<ManagerVO> manager= managerSimpleDao.getPageManager(managerDTO);
+        List<ManagerVO> manager= managerSimpleDao.getPage(managerDTO);
         System.out.println(manager.get(0));
         System.out.println(manager.get(1));
     }

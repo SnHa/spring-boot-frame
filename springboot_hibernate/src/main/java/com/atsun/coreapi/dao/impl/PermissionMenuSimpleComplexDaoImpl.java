@@ -2,7 +2,6 @@ package com.atsun.coreapi.dao.impl;
 
 import com.atsun.coreapi.dao.PermissionMenuSimpleComplexDao;
 import com.atsun.coreapi.po.PermissionMenu;
-import com.sun.xml.bind.v2.model.core.ID;
 
 import java.util.HashMap;
 import java.util.List;

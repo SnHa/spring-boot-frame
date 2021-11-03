@@ -1,13 +1,10 @@
 package com.atsun.coreapi.dto;
 
-import com.atsun.coreapi.enums.ManagerType;
 import com.atsun.coreapi.enums.PermissionType;
 import com.atsun.coreapi.enums.Scope;
-import com.atsun.coreapi.po.Menu;
 import com.atsun.coreapi.po.Permission;
 import lombok.Data;
 
-import javax.persistence.*;
 import java.util.List;
 
 /**

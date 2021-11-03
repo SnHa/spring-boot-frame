@@ -1,14 +1,10 @@
 package com.atsun.coreapi.utils;
 
 import com.atsun.coreapi.vo.ManagerVO;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.tomcat.util.codec.binary.Base64;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.util.Date;
 
 /**

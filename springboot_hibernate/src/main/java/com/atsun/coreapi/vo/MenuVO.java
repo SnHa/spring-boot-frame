@@ -1,6 +1,5 @@
 package com.atsun.coreapi.vo;
 
-import com.atsun.coreapi.enums.PermissionType;
 import com.atsun.coreapi.enums.Scope;
 import lombok.Data;
 
