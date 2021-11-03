@@ -1,17 +1,18 @@
-package com.atsun.coreapi.vo;
+package com.atsun.coreapi.dto;
 
-import com.atsun.coreapi.enums.PermissionType;
 import com.atsun.coreapi.enums.Scope;
+import com.atsun.coreapi.po.Menu;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
 /**
- * @author HP
+ * @author SH
  */
 @Data
-public class MenuVO {
+public class MenuDTO {
+
     /**
      * id
      */
@@ -50,7 +51,7 @@ public class MenuVO {
     /**
      * 父菜单
      */
-    private String pid;
+    private Menu parentMenu;
 
     /**
      * 范围
@@ -71,11 +72,4 @@ public class MenuVO {
      * 备注
      */
     private String remark;
-
-    private List<MenuVO> children = new ArrayList<>();
-
-
-    public void setScope(Object scope) {
-        this.scope = scope instanceof String ? Scope.getEnum((String) scope) : (Scope) scope;
-    }
 }

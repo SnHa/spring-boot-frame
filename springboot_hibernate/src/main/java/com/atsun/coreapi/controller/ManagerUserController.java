@@ -10,6 +10,7 @@ import com.atsun.coreapi.vo.ManagerVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +38,7 @@ public class ManagerUserController extends BaseController {
     }
 
     @ApiOperation("分页查询所有的用户")
+    @RequiresPermissions("manager:getPage")
     @GetMapping("/allList/{page}/{size}")
     public DataResponse getAllList(@PathVariable int page, @PathVariable int size,
                                    HttpServletRequest request) {
@@ -52,6 +54,7 @@ public class ManagerUserController extends BaseController {
     }
 
     @ApiOperation(value = "添加管理用户")
+    @RequiresPermissions("manager:add")
     @PostMapping("/add")
     public NoDataResponse addManager(@RequestBody ManagerDTO manager) {
 
@@ -64,6 +67,7 @@ public class ManagerUserController extends BaseController {
     }
 
     @ApiOperation(value = "删除单个用户")
+    @RequiresPermissions("manager:delete")
     @DeleteMapping("/delete/{id}")
     public NoDataResponse deleteManager(@PathVariable String id) {
 
@@ -76,23 +80,24 @@ public class ManagerUserController extends BaseController {
     }
 
     @ApiOperation(value = "修改单个用户")
+    @RequiresPermissions("manager:edit")
     @PostMapping("/update")
     public NoDataResponse update(@RequestBody ManagerDTO managerDTO) {
 
-       Boolean flag= managerService.update(managerDTO);
+        Boolean flag = managerService.update(managerDTO);
 
-       if (flag){
-           return ok();
-       }
+        if (flag) {
+            return ok();
+        }
         return error();
     }
 
-    @ApiOperation(value = "条件查询" )
+    @ApiOperation(value = "条件查询")
     @GetMapping("/condition/select")
-    public DataResponse condition(@RequestBody ManagerDTO managerDTO){
+    public DataResponse condition(@RequestBody ManagerDTO managerDTO) {
 
-      List<ManagerVO> manager = managerService.conditionSelect(managerDTO);
+        List<ManagerVO> manager = managerService.conditionSelect(managerDTO);
 
-        return  ok(managerDTO);
+        return ok(managerDTO);
     }
 }

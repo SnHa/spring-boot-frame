@@ -17,6 +17,13 @@ public interface PermissionMenuSimpleComplexDao extends ComplexDao<PermissionMen
     List<String> getListMenuId(List<String> listTypeMenu);
 
     /**
+     * 根据菜单id查询数据
+     * @param id
+     * @return
+     */
+    Long getListMenuId(String id);
+
+    /**
      * 权限id删除数据
      * @param id
      * @return
@@ -29,4 +36,18 @@ public interface PermissionMenuSimpleComplexDao extends ComplexDao<PermissionMen
      * @return
      */
     List<String> getPermission(String id);
+
+    /**
+     * 菜单id删除数据
+     * @param id
+     * @return
+     */
+    int deleteMenu(String id);
+
+    /**
+     * 查询菜单id数量
+     * @param id
+     * @return
+     */
+    List<String> getByIds(String id);
 }

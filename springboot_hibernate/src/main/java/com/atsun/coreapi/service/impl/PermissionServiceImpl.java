@@ -242,6 +242,7 @@ public class PermissionServiceImpl implements PermissionService {
 
         List<PermissionVO> list = permissionSimpleDao.getAll(page, size);
         List<PermissionVO> build = TreeUtil.buildP(list);
+
         return build;
     }
 

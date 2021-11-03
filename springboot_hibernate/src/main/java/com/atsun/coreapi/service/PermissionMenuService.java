@@ -13,4 +13,19 @@ public interface PermissionMenuService {
      * @return
      */
     List<String> getListMenuId(List<String> listTypeMenu);
+
+    /**
+     * 根据菜单id删除数据
+     * @param id
+     * @return
+     */
+    Boolean delete(String id);
+
+    /**
+     * 查询是否存在关联的菜单数据
+     * @param id
+     * @return
+     */
+    int query(String id);
+
 }

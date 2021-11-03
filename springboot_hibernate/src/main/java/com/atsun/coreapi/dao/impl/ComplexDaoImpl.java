@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  * @author LD
  */
 @Repository
-@Transactional(readOnly = true, rollbackFor = Exception.class)
+@Transactional(readOnly = false, rollbackFor = Exception.class)
 public class ComplexDaoImpl<T, ID extends Serializable> implements ComplexDao<T, ID> {
 
     @PersistenceContext

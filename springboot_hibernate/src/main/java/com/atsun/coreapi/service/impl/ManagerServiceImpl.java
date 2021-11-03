@@ -22,9 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -234,10 +232,17 @@ public class ManagerServiceImpl implements ManagerService {
         List<String> listPermission = rolePermissionService.getPermissionIds(listRole);
         // 根据权限id查询sn
         Set<String> listSn = permissionService.getListSn(listPermission);
+        Set<String> sn = new HashSet<>();
+        for (String s : listSn) {
+            String[] strings = s.split(",");
+            for (int i = 0; i < strings.length; i++) {
+                sn.add(strings[i]);
+            }
+        }
         //
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         info.setRoles(listName);
-        info.setStringPermissions(listSn);
+        info.setStringPermissions(sn);
         return info;
     }
 

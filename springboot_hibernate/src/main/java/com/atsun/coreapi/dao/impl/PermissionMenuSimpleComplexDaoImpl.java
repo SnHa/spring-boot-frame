@@ -24,6 +24,17 @@ public class PermissionMenuSimpleComplexDaoImpl extends ComplexDaoImpl<Permissio
     }
 
     @Override
+    public Long getListMenuId(String id) {
+        String sql = "SELECT COUNT(o.id) FROM t_permission_menu o WHERE o.menu_id=:menuId";
+
+        HashMap<String, Object> params = new HashMap<>(5);
+        params.put("menuId", id);
+
+
+        return super.getTotalBySql(sql, params);
+    }
+
+    @Override
     public int deletePermission(String id) {
         String where = "WHERE o.permission_id=:permissionId";
 
@@ -39,6 +50,26 @@ public class PermissionMenuSimpleComplexDaoImpl extends ComplexDaoImpl<Permissio
 
         HashMap<String, Object> params = new HashMap<>(5);
         params.put("permissionId", id);
+
+        return super.getListBySql(sql, params, null, String.class);
+    }
+
+    @Override
+    public int deleteMenu(String id) {
+        String where = " o.menu_id=:menuId";
+
+        HashMap<String, Object> params = new HashMap<>(5);
+        params.put("menuId", id);
+
+        return super.delete(where, params);
+    }
+
+    @Override
+    public List<String> getByIds(String id) {
+        String sql = "SELECT o.id FROM t_permission_menu o WHERE o.menu_id=:menuId";
+
+        HashMap<String, Object> params = new HashMap<>(5);
+        params.put("menuId", id);
 
         return super.getListBySql(sql, params, null, String.class);
     }

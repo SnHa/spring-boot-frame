@@ -19,4 +19,20 @@ public interface MenuComplexDao extends ComplexDao<Menu, String> {
      */
     List<MenuVO> getAll(List<String> listMenuId);
 
+    /**
+     * 查询所有菜单-分页
+     *
+     * @param page
+     * @param size
+     * @return
+     */
+    List<MenuVO> getAllMenu(Integer page, Integer size);
+
+    /**
+     * 删除菜单数据
+     *
+     * @param id
+     * @return
+     */
+    int deleteId(String id);
 }

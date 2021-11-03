@@ -9,11 +9,10 @@ import com.atsun.coreapi.vo.RoleVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -33,6 +32,7 @@ public class RoleController extends BaseController {
     }
 
     @ApiOperation(value = "角色查询")
+    @RequiresPermissions("role:getPage")
     @GetMapping("/list/{page}/{size}")
     public DataResponse list(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
         // 直接查询角色表带分页
@@ -42,6 +42,7 @@ public class RoleController extends BaseController {
     // 删除
 
     @ApiOperation("删除角色")
+    @RequiresPermissions("role:delete")
     @DeleteMapping("/delete/{id}")
     public NoDataResponse delete(@PathVariable("id") String id) {
         Boolean flag = roleService.delete(id);
@@ -52,6 +53,7 @@ public class RoleController extends BaseController {
     }
 
     @ApiOperation("添加角色")
+    @RequiresPermissions("role:add")
     @PostMapping("/add")
     public NoDataResponse add(@RequestBody RoleDTO roleDTO) {
         Boolean flag = roleService.add(roleDTO);
@@ -62,6 +64,7 @@ public class RoleController extends BaseController {
     }
 
     @ApiOperation("修改角色基本信息")
+    @RequiresPermissions("role:edit")
     @PostMapping("/update")
     public NoDataResponse update(@RequestBody RoleDTO roleDTO) {
         Boolean flag = roleService.update(roleDTO);
@@ -81,6 +84,7 @@ public class RoleController extends BaseController {
     // 角色授权 权限
 
     @ApiOperation(value = "角色添加权限管理")
+    @RequiresPermissions("role:authorize")
     @PostMapping("/add/permission")
     public NoDataResponse rolePermission() {
         return null;

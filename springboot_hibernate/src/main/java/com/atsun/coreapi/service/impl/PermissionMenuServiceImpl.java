@@ -26,4 +26,20 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
         return permissionMenuSimpleDao.getListMenuId(listTypeMenu);
     }
 
+    @Override
+    public Boolean delete(String id) {
+
+        int m = permissionMenuSimpleDao.deleteMenu(id);
+        if (m != 1) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int query(String id) {
+      List<String> list =permissionMenuSimpleDao.getByIds(id);
+        return list.size();
+    }
+
 }

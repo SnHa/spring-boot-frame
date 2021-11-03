@@ -6,10 +6,7 @@ import com.atsun.coreapi.dto.RoleDTO;
 import com.atsun.coreapi.enums.AccountState;
 import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.po.Role;
-import com.atsun.coreapi.service.ManagerService;
-import com.atsun.coreapi.service.MenuService;
-import com.atsun.coreapi.service.PermissionMenuService;
-import com.atsun.coreapi.service.RoleService;
+import com.atsun.coreapi.service.*;
 import com.atsun.coreapi.utils.TokenUtils;
 import com.atsun.coreapi.utils.TreeUtil;
 import com.atsun.coreapi.vo.ManagerVO;
@@ -23,10 +20,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Slf4j
 @SpringBootTest
 class ApplicationTests {
+    @Autowired
+    private ManagerRoleService managerRoleService;
+
+    @Autowired
+    private RolePermissionService rolePermissionService;
+
+    @Autowired
+    private PermissionService permissionService;
 
     @Autowired
     private RoleService roleService;
@@ -185,5 +193,27 @@ class ApplicationTests {
         roleDTO.setRemark("备注数据");
         roleDTO.setScope("PLATFORM");
         Boolean update = roleService.update(roleDTO);
+    }
+    @Test
+    void  te(){
+
+        List<String> listRole = managerRoleService.getRoleIds("1");
+        Set<String> listName = roleService.listName(listRole);
+        // 查询授权信息
+        // 根据角色id查询权限id
+        List<String> listPermission = rolePermissionService.getPermissionIds(listRole);
+        // 根据权限id查询sn
+        Set<String> listSn = permissionService.getListSn(listPermission);
+        Set<String> sn = new HashSet<>();
+        for (String s : listSn) {
+            String[] strings = s.split(",");
+            for (int i = 0; i < strings.length; i++) {
+                sn.add(strings[i]);
+            }
+        }
+
+        for (String s1:sn) {
+            System.out.println(s1);
+        }
     }
 }
