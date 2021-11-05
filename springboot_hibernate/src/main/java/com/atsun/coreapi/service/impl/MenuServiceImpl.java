@@ -1,5 +1,6 @@
 package com.atsun.coreapi.service.impl;
 
+import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.MenuSimpleDao;
 import com.atsun.coreapi.dto.MenuDTO;
@@ -94,7 +95,28 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public PageBean<MenuVO> getAllMenu(MenuPageDTO menuPageDTO) throws TransException {
 
-        PageBean<MenuVO> list = menuSimpleDao.getAllMenu(menuPageDTO.getPage(), menuPageDTO.getName(), menuPageDTO.getTitle());
+        //查询所有信息list
+        List<MenuVO> listMenu = menuSimpleDao.getListMenu();
+        // 树形结构list
+        List<MenuVO> build = TreeUtil.build(listMenu);
+        //page --当前页，--页面大下坡
+        // new pageBean
+        PageBean<MenuVO> pageBean = new PageBean<>();
+
+        // 每页个数
+        pageBean.setPageSize(menuPageDTO.getPage().getPageSize());
+        // 当前页码
+        pageBean.setPageNumber(menuPageDTO.getPage().getPageNumber());
+        //判断是否是最后一页
+        if (menuPageDTO.getPage().getPageNumber() == ((build.size() / menuPageDTO.getPage().getPageSize()) + 1)) {
+            // 是最后一页
+            pageBean.loadData((long) build.size(), build.subList((menuPageDTO.getPage().getPageNumber() - 1) * menuPageDTO.getPage().getPageSize(), build.size()));
+        } else {
+            //不是最后一页
+            pageBean.loadData((long) build.size(), build.subList((menuPageDTO.getPage().getPageNumber() - 1) * menuPageDTO.getPage().getPageSize(),
+                    (menuPageDTO.getPage().getPageNumber() - 1) * menuPageDTO.getPage().getPageSize() + menuPageDTO.getPage().getPageSize()));
+        }
+      /*  PageBean<MenuVO> list = menuSimpleDao.getAllMenu(menuPageDTO.getPage(), menuPageDTO.getName(), menuPageDTO.getTitle());
 
         if (0 == list.getRecords().size()) {
             throw new TransException(RECORD_NOT_EXIST);
@@ -102,7 +124,8 @@ public class MenuServiceImpl implements MenuService {
 
         list.setRecords(TreeUtil.build(list.getRecords()));
 
-        return list;
+        return list;*/
+        return pageBean;
     }
 
     @Override

@@ -56,4 +56,12 @@ public class MenuComplexDaoImpl extends ComplexDaoImpl<Menu, String> implements 
         return super.getPageBySql(sql, params, null, page, MenuVO.class);
     }
 
+    @Override
+    public List<MenuVO> getListMenu() {
+        String sql = "SELECT o.id AS id, o.name AS name, o.remark AS remark, o.scope AS scope," +
+                " o.p_id AS pid, o.component AS component, o.redirect AS redirect, o.path AS path, o.meta AS meta FROM t_menu o  ";
+
+        return getListBySql(sql, null, null, MenuVO.class);
+    }
+
 }

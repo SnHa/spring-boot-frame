@@ -38,4 +38,11 @@ public interface MenuComplexDao extends ComplexDao<Menu, String> {
      * @return 菜单分页数据
      */
     PageBean<MenuVO> getAllMenu(Page page, String name, String title);
+
+    /**
+     * 查询所有数据
+     * @return
+     */
+    List<MenuVO> getListMenu();
+
 }
