@@ -64,14 +64,10 @@ public class PermissionServiceImpl implements PermissionService {
 
     @Override
     public Set<String> getListSn(List<String> listPermission) {
+
         List<String> listSn = permissionSimpleDao.getListSn(listPermission);
 
-        HashSet<String> sn = new HashSet<>();
-
-        for (String s : listSn) {
-            sn.add(s);
-        }
-        return sn;
+        return new HashSet<>(listSn);
     }
 
     @Override
@@ -115,12 +111,12 @@ public class PermissionServiceImpl implements PermissionService {
             permission.setParentPermission(null);
         }
 
-        Permission save = permissionSimpleDao.save(permission);
+        permissionSimpleDao.save(permission);
 
         // 权限-菜单添加
         for (String id : permissionDTO.getListMenuId()) {
             PermissionMenu permissionMenu = new PermissionMenu();
-            permissionMenu.setPermission(save);
+            permissionMenu.setPermission(permission);
             // 根据菜单id查询菜单数据
             Menu menu = menuSimpleDao.getById(id);
             permissionMenu.setMenu(menu);
@@ -128,7 +124,6 @@ public class PermissionServiceImpl implements PermissionService {
         }
 
     }
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -141,9 +136,7 @@ public class PermissionServiceImpl implements PermissionService {
         // 权限-角色
         int r = rolePermissionSimpleDao.deletePermission(id);
         if (r != 1) {
-
             throw new TransException(CUSTOM_EXCEPTION_MSG, "权限-角色删除失败");
-
         }
         // 权限-菜单
         int m = permissionMenuSimpleDao.deletePermission(id);

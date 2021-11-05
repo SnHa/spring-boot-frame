@@ -7,6 +7,7 @@ import com.atsun.coreapi.dto.ManagerDTO;
 import com.atsun.coreapi.dto.ManagerPageDTO;
 import com.atsun.coreapi.enums.TransCode;
 import com.atsun.coreapi.exception.TransException;
+import com.atsun.coreapi.po.Account;
 import com.atsun.coreapi.po.Manager;
 import com.atsun.coreapi.po.ManagerRole;
 import com.atsun.coreapi.po.Role;
@@ -18,7 +19,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,8 +104,7 @@ public class ManagerServiceImpl implements ManagerService {
 
         m.setUsername(dto.getUsername());
         m.setRealName(dto.getRealName());
-        m.setPassword(new BCryptPasswordEncoder(10).encode(dto.getPassword()));
-        m.setTokenVer(1);
+        m.setPassword(Account.hashPassword(dto.getPassword()));
         m.setState(dto.getState());
         m.setType(dto.getType());
 
@@ -140,18 +139,17 @@ public class ManagerServiceImpl implements ManagerService {
     public String login(String username, String password) throws TransException {
 
         // 获取用户数据
-        ManagerVO manager = get(username);
+        ManagerVO m = get(username);
 
-        if (null == manager) {
+        if (null == m) {
             throw new TransException(TransCode.CUSTOM_EXCEPTION_MSG, "用户名不存在");
         }
 
-        //TODO: 密码未加密
-        if (!new BCryptPasswordEncoder().matches(password, manager.getPassword())) {
+        if (Account.checkPassword(password, m.getPassword())) {
             throw new TransException(TransCode.CUSTOM_EXCEPTION_MSG, "密码错误");
         }
 
-        return new TokenUtils().createToken(manager);
+        return new TokenUtils().createToken(m);
     }
 
     @Override
@@ -172,9 +170,7 @@ public class ManagerServiceImpl implements ManagerService {
         Set<String> sn = new HashSet<>();
         for (String s : listSn) {
             String[] strings = s.split(",");
-            for (int i = 0; i < strings.length; i++) {
-                sn.add(strings[i]);
-            }
+            sn.addAll(Arrays.asList(strings));
         }
         //
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
