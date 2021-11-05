@@ -1,5 +1,7 @@
 package com.atsun.coreapi.service;
 
+import com.atsun.coreapi.exception.TransException;
+
 import java.util.List;
 
 /**
@@ -15,14 +17,16 @@ public interface PermissionMenuService {
     List<String> getListMenuId(List<String> listTypeMenu);
 
     /**
-     * 根据菜单id删除数据
-     * @param id
-     * @return
+     * 根据菜单id删除关联表数据
+     *
+     * @param id 菜单的id
+     * @throws TransException 异常处理
      */
-    Boolean delete(String id);
+    void delete(String id) throws TransException;
 
     /**
      * 查询是否存在关联的菜单数据
+     *
      * @param id
      * @return
      */

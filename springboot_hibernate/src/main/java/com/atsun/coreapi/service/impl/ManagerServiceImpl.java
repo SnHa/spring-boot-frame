@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,7 +104,8 @@ public class ManagerServiceImpl implements ManagerService {
 
         m.setUsername(dto.getUsername());
         m.setRealName(dto.getRealName());
-        m.setPassword(dto.getPassword());
+        m.setPassword(new BCryptPasswordEncoder(10).encode(dto.getPassword()));
+        m.setTokenVer(1);
         m.setState(dto.getState());
         m.setType(dto.getType());
 
@@ -119,6 +121,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
+    @Transactional(rollbackFor = RuntimeException.class)
     public void delete(String id) throws TransException {
 
         // 判断用户id是否存在
@@ -144,7 +147,7 @@ public class ManagerServiceImpl implements ManagerService {
         }
 
         //TODO: 密码未加密
-        if (!manager.getPassword().equals(password)) {
+        if (!new BCryptPasswordEncoder().matches(password, manager.getPassword())) {
             throw new TransException(TransCode.CUSTOM_EXCEPTION_MSG, "密码错误");
         }
 

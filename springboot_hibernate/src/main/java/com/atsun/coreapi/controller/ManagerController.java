@@ -54,9 +54,11 @@ public class ManagerController extends BaseController {
     }
 
     @ApiOperation(value = "条件查询")
-    @GetMapping("/getPage")
+    @PostMapping("/getPage")
     public DataResponse<PageBean<ManagerVO>> getPage(@RequestBody ManagerPageDTO dto) throws TransException {
+
         return ok(managerService.getPage(dto));
+
     }
 
 }

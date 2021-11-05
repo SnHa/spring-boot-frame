@@ -1,6 +1,9 @@
 package com.atsun.coreapi.service;
 
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dto.RoleDTO;
+import com.atsun.coreapi.dto.RolePageDTO;
+import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.po.Role;
 import com.atsun.coreapi.vo.RoleVO;
 
@@ -22,41 +25,42 @@ public interface RoleService {
     /**
      * 查询全部用户
      *
-     * @param page
-     * @param size
+     * @param rolePageDTO
      * @return
+     * @throws TransException
      */
-    List<RoleVO> getAll(Integer page, Integer size);
+    PageBean<RoleVO> getAll(RolePageDTO rolePageDTO) throws TransException;
+
 
     /**
-     * 添加数据
+     * 添加-修改数据
      *
      * @param roleDTO
-     * @return
+     * @throws TransException
      */
-    Boolean add(RoleDTO roleDTO);
-
-    /**
-     * 修改数据
-     *
-     * @param roleDTO
-     * @return
-     */
-    Boolean update(RoleDTO roleDTO);
+    void edit(RoleDTO roleDTO) throws TransException;
 
     /**
      * 查询单个数据
      *
      * @param id
      * @return
+     * @throws TransException
      */
-    Role query(String id);
+    Role query(String id) throws TransException;
 
     /**
      * 根据id删除数据
      *
      * @param id
-     * @return
+     * @throws TransException
      */
-    Boolean delete(String id);
+    void delete(String id) throws TransException;
+
+    /**
+     * 添加授权
+     *
+     * @param roleDTO
+     */
+    void addPermission(RoleDTO roleDTO) throws TransException;
 }

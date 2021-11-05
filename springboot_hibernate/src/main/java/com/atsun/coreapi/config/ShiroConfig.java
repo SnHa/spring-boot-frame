@@ -108,9 +108,9 @@ public class ShiroConfig {
         // ShrioFilterFactroy 拦截控制
         HashMap<String, String> filterMap = new HashMap<>();
         //配置路径过滤器 anthc表示需要登录后才能进入
-        filterMap.put("/info/**", "auth");
-        filterMap.put("/menu/**", "auth");
-        filterMap.put("/permission/**", "auth");
+        filterMap.put("/info1/**", "auth");
+        filterMap.put("/menu1/**", "auth");
+        filterMap.put("/permission1/**", "auth");
         factoryBean.setFilterChainDefinitionMap(filterMap);
         return factoryBean;
     }

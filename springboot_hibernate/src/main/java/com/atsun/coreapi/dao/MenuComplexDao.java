@@ -1,5 +1,7 @@
 package com.atsun.coreapi.dao;
 
+import com.atsun.coreapi.bean.Page;
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.po.Menu;
 import com.atsun.coreapi.vo.MenuVO;
 
@@ -18,14 +20,6 @@ public interface MenuComplexDao extends ComplexDao<Menu, String> {
      */
     List<MenuVO> getAll(List<String> listMenuId);
 
-    /**
-     * 查询所有菜单-分页
-     *
-     * @param page
-     * @param size
-     * @return
-     */
-    List<MenuVO> getAllMenu(Integer page, Integer size);
 
     /**
      * 删除菜单数据
@@ -34,4 +28,14 @@ public interface MenuComplexDao extends ComplexDao<Menu, String> {
      * @return
      */
     int deleteId(String id);
+
+    /**
+     * 查询所有菜单-分页
+     *
+     * @param page  页码，大小
+     * @param name  菜单名称
+     * @param title 菜单标题
+     * @return 菜单分页数据
+     */
+    PageBean<MenuVO> getAllMenu(Page page, String name, String title);
 }

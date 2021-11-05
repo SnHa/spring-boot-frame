@@ -3,6 +3,9 @@ package com.atsun.coreapi.dto;
 import com.atsun.coreapi.enums.AccountState;
 import lombok.Data;
 
+/**
+ * @author SH
+ */
 @Data
 public class ManagerPageDTO extends PageDTO {
 

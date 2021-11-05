@@ -3,6 +3,8 @@ package com.atsun.coreapi.dto;
 import com.atsun.coreapi.enums.Scope;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author SH
  */
@@ -12,7 +14,7 @@ public class RoleDTO {
     /**
      * id
      */
-    private  String id;
+    private String id;
     /**
      * 名称
      */
@@ -29,6 +31,10 @@ public class RoleDTO {
      */
     private String remark;
 
+    /**
+     * 权限id集合
+     */
+    private List<String> permissionIds;
 
     public void setScope(Object scope) {
         this.scope = scope instanceof String ? Scope.getEnum((String) scope) : (Scope) scope;

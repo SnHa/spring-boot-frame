@@ -17,7 +17,6 @@ public class ManagerScopeServiceImpl implements ManagerScopeService {
 
 
     private MenuSimpleDao menuSimpleDao;
-
     private ManagerScopeSimpleDao managerScopeSimpleDao;
 
     @Autowired

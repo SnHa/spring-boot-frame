@@ -1,6 +1,9 @@
 package com.atsun.coreapi.service;
 
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dto.PermissionDTO;
+import com.atsun.coreapi.dto.PermissionPageDTO;
+import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.vo.PermissionVO;
 
 import java.util.List;
@@ -28,43 +31,36 @@ public interface PermissionService {
     Set<String> getListSn(List<String> listPermission);
 
     /**
-     * 添加权限
+     * 添加-修改权限
      *
      * @param permissionDTO
-     * @return
+     * @throws TransException
      */
-    Boolean add(PermissionDTO permissionDTO);
+    void edit(PermissionDTO permissionDTO) throws TransException;
 
-    /**
-     * 修改权限
-     *
-     * @param permissionDTO
-     * @return
-     */
-    Boolean update(PermissionDTO permissionDTO);
 
     /**
      * 根据id删除权限级权限相关表
      *
-     * @param id
-     * @return
+     * @param id 权限id
+     * @throws TransException
      */
-    Boolean delete(String id);
+    void delete(String id) throws TransException;
 
     /**
      * 添加子菜单
      *
      * @param permissionDTO
-     * @return
+     * @throws TransException
      */
-    Boolean addSon(PermissionDTO permissionDTO);
+    void addSon(PermissionDTO permissionDTO) throws TransException;
 
     /**
-     * 获取全部的权限信息
+     * 分页获取全部的权限信息
      *
-     * @param page
-     * @param size
+     * @param permissionPageDTO
      * @return
+     * @throws TransException
      */
-    List<PermissionVO> getAll(Integer page, Integer size);
+    PageBean<PermissionVO> getAll(PermissionPageDTO permissionPageDTO) throws TransException;
 }

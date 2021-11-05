@@ -5,6 +5,7 @@ import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.enums.Direction;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +25,8 @@ public interface ComplexDao<T, ID extends Serializable> {
     long getTotalByHql(String hql, Map<String, Object> params);
 
     long getTotalBySql(String sql, Map<String, Object> params);
+
+    BigInteger getTotalBySqlBigInt(String sql, Map<String, Object> params);
 
     boolean existsTable(String tableSchema, String tableName);
 

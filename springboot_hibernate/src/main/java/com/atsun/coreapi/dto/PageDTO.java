@@ -7,6 +7,9 @@ import lombok.Setter;
 
 import java.io.Serializable;
 
+/**
+ * @author SH
+ */
 @Getter
 @Setter
 @NoArgsConstructor

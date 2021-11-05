@@ -1,21 +1,25 @@
 package com.atsun.coreapi.service.impl;
 
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.ManagerRoleSimpleDao;
+import com.atsun.coreapi.dao.PermissionSimpleDao;
 import com.atsun.coreapi.dao.RolePermissionSimpleDao;
 import com.atsun.coreapi.dao.RoleSimpleDao;
 import com.atsun.coreapi.dto.RoleDTO;
+import com.atsun.coreapi.dto.RolePageDTO;
+import com.atsun.coreapi.exception.TransException;
+import com.atsun.coreapi.po.Permission;
 import com.atsun.coreapi.po.Role;
+import com.atsun.coreapi.po.RolePermission;
 import com.atsun.coreapi.service.RoleService;
 import com.atsun.coreapi.vo.RoleVO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author SH
@@ -26,10 +30,14 @@ import java.util.Set;
 public class RoleServiceImpl implements RoleService {
 
     private RoleSimpleDao roleSimpleDao;
-
     private ManagerRoleSimpleDao managerRoleSimpleDao;
-
     private RolePermissionSimpleDao rolePermissionSimpleDao;
+    private PermissionSimpleDao permissionSimpleDao;
+
+    @Autowired
+    public void setPermissionSimpleDao(PermissionSimpleDao permissionSimpleDao) {
+        this.permissionSimpleDao = permissionSimpleDao;
+    }
 
     @Autowired
     public void setRolePermissionSimpleDao(RolePermissionSimpleDao rolePermissionSimpleDao) {
@@ -59,68 +67,68 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleVO> getAll(Integer page, Integer size) {
-        List<RoleVO> list = roleSimpleDao.getAll(page, size);
-        return list;
+    public PageBean<RoleVO> getAll(RolePageDTO rolePageDTO) {
+
+        return roleSimpleDao.getAll(rolePageDTO.getPage(), rolePageDTO.getName());
     }
 
     @Override
-    public Boolean add(RoleDTO roleDTO) {
+    public void edit(RoleDTO roleDTO) throws TransException {
 
-        Role role = new Role();
-        role.setName(roleDTO.getName());
-        role.setRemark(roleDTO.getRemark());
-        role.setScope(roleDTO.getScope());
-        role.setCreateDatetime(new Date());
-        role.setUpdateDatetime(new Date());
+        Role role;
 
-        Role role1 = roleSimpleDao.save(role);
-
-        if (role1 == null) {
-            return false;
+        // 判断id是否为空
+        if (StringUtils.isNotBlank(roleDTO.getId())) {
+            // 修改
+            role = roleSimpleDao.getRole(roleDTO.getId());
+            role.setUpdateDatetime(new Date());
+        } else {
+            //添加
+            role = new Role();
         }
-        return true;
-    }
-
-    @Override
-    public Boolean update(RoleDTO roleDTO) {
-        // 根据id查询
-        Role role = roleSimpleDao.getRole(roleDTO.getId());
 
         role.setName(roleDTO.getName());
         role.setRemark(roleDTO.getRemark());
         role.setScope(roleDTO.getScope());
-        role.setUpdateDatetime(new Date());
 
         // 修改数据
         Role save = roleSimpleDao.save(role);
-        if (save == null) {
-            return false;
-        }
-        return true;
+
     }
 
     @Override
-    public Role query(String id) {
+    public Role query(String id) throws TransException {
+
         return roleSimpleDao.getRole(id);
+
     }
 
     @Override
-    public Boolean delete(String id) {
+    public void delete(String id) throws TransException {
         // 根据角色id,角色——用户表进行删除
-        int m = managerRoleSimpleDao.deleteByRoleId(id);
-        if (m != 1) {
-            return false;
-        }
+        managerRoleSimpleDao.deleteByRoleId(id);
+
         // 根据角色id，角色-权限表进行删除
-        int p = rolePermissionSimpleDao.deleteRoleId(id);
-        if (p != 1) {
-            return false;
-        }
+        rolePermissionSimpleDao.deleteRoleId(id);
+
         // 根据id删除角色表
         roleSimpleDao.deleteById(id);
-        log.info("=======删除成功=========");
+    }
 
-        return true;
+    @Override
+    public void addPermission(RoleDTO roleDTO) throws TransException {
+
+        // 查询关联表
+        Role role = roleSimpleDao.getById(roleDTO.getId());
+        List<Permission> permissions = permissionSimpleDao.findAllById(roleDTO.getPermissionIds());
+
+        // 添加关联表
+        RolePermission rolePermission = new RolePermission();
+        rolePermission.setRole(role);
+        for (Permission p : permissions) {
+            rolePermission.setPermission(p);
+            rolePermissionSimpleDao.save(rolePermission);
+        }
+
     }
 }

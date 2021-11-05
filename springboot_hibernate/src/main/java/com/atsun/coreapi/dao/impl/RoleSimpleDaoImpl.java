@@ -1,9 +1,12 @@
 package com.atsun.coreapi.dao.impl;
 
 import com.atsun.coreapi.bean.Page;
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.RoleComplexDao;
+import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.po.Role;
 import com.atsun.coreapi.vo.RoleVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -37,15 +40,18 @@ public class RoleSimpleDaoImpl extends ComplexDaoImpl<Role, String> implements R
     }
 
     @Override
-    public List<RoleVO> getAll(Integer page, Integer size) {
+    public PageBean<RoleVO> getAll(Page page, String name) {
         String sql = "SELECT o.id AS id, o.name AS name, o.remark AS remark, o.scope AS scope," +
-                " o.create_datetime AS createDatetime, o.update_datetime AS updateDatetime FROM t_role o";
+                " o.create_datetime AS createDatetime, o.update_datetime AS updateDatetime FROM t_role o WHERE 1=1 ";
 
-        Page pag = new Page();
-        pag.setPageNumber(page);
-        pag.setPageSize(size);
+        HashMap<String, Object> params = new HashMap<>(5);
 
-        return super.getPageListBySql(sql, null, null, pag, RoleVO.class);
+        if (StringUtils.isNotBlank(name)) {
+            sql += " AND name=:name ";
+            params.put("name", name);
+        }
+
+        return super.getPageBySql(sql, params, null, page, RoleVO.class);
     }
 
     @Override

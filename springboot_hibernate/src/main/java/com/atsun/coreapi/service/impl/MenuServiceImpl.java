@@ -1,7 +1,10 @@
 package com.atsun.coreapi.service.impl;
 
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.MenuSimpleDao;
 import com.atsun.coreapi.dto.MenuDTO;
+import com.atsun.coreapi.dto.MenuPageDTO;
+import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.po.Menu;
 import com.atsun.coreapi.service.*;
 import com.atsun.coreapi.utils.TokenUtils;
@@ -16,27 +19,22 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 
+import static com.atsun.coreapi.enums.TransCode.CUSTOM_EXCEPTION_MSG;
+import static com.atsun.coreapi.enums.TransCode.RECORD_NOT_EXIST;
+
 /**
  * @author SH
  */
 @Slf4j
-@Transactional(rollbackFor = Exception.class)
+@Transactional(readOnly = true, rollbackFor = Exception.class)
 @Service
 public class MenuServiceImpl implements MenuService {
 
     private ManagerRoleService managerRoleService;
-
     private RolePermissionService rolePermissionService;
-
     private PermissionService permissionService;
-
-
     private PermissionMenuService permissionMenuService;
-
-
     private ManagerService managerService;
-
-
     private MenuSimpleDao menuSimpleDao;
 
     @Autowired
@@ -90,21 +88,36 @@ public class MenuServiceImpl implements MenuService {
         List<String> listMenuId = permissionMenuService.getListMenuId(listTypeMenu);
         // 根据菜单id获取菜单信息
         List<MenuVO> menus = getMenuList(listMenuId);
-        List<MenuVO> build = TreeUtil.build(menus);
-        return build;
+        return TreeUtil.build(menus);
     }
 
     @Override
-    public List<MenuVO> getAllMenu(Integer page, Integer size) {
-        List<MenuVO> list = menuSimpleDao.getAllMenu(page, size);
-        List<MenuVO> build = TreeUtil.build(list);
-        return build;
+    public PageBean<MenuVO> getAllMenu(MenuPageDTO menuPageDTO) throws TransException {
+
+        PageBean<MenuVO> list = menuSimpleDao.getAllMenu(menuPageDTO.getPage(), menuPageDTO.getName(), menuPageDTO.getTitle());
+
+        if (0 == list.getRecords().size()) {
+            throw new TransException(RECORD_NOT_EXIST);
+        }
+
+        list.setRecords(TreeUtil.build(list.getRecords()));
+
+        return list;
     }
 
     @Override
-    public Boolean add(MenuDTO menuDTO) {
+    @Transactional(rollbackFor = Exception.class)
+    public void edit(MenuDTO menuDTO) throws TransException {
+        Menu menu;
 
-        Menu menu = new Menu();
+        if (StringUtils.isNotBlank(menuDTO.getId())) {
+            // 修改
+            menu = menuSimpleDao.getById(menuDTO.getId());
+            menu.setUpdateDatetime(new Date());
+        } else {
+            // 添加
+            menu = new Menu();
+        }
 
         menu.setComponent(menuDTO.getComponent());
         menu.setEnable(menuDTO.getEnable());
@@ -116,8 +129,6 @@ public class MenuServiceImpl implements MenuService {
         menu.setRedirect(menuDTO.getRedirect());
         menu.setRemark(menuDTO.getRemark());
         menu.setScope(menu.getScope());
-        menu.setCreateDatetime(new Date());
-        menu.setUpdateDatetime(new Date());
 
         // 判断添加了父菜单
         if (!StringUtils.isBlank(menuDTO.getParentMenu().getId())) {
@@ -128,68 +139,29 @@ public class MenuServiceImpl implements MenuService {
             menu.setParentMenu(null);
         }
         Menu save = menuSimpleDao.save(menu);
-        if (save == null) {
-            log.error("======菜单添加失败=====");
-            return false;
+        if (null == save) {
+            throw new TransException(CUSTOM_EXCEPTION_MSG, "操作失败");
         }
-        return true;
     }
 
     @Override
-    public Boolean update(MenuDTO menuDTO) {
-
-        Menu menu = menuSimpleDao.getById(menuDTO.getId());
-
-        menu.setComponent(menuDTO.getComponent());
-        menu.setEnable(menuDTO.getEnable());
-        menu.setMeta(menuDTO.getMeta());
-        menu.setName(menuDTO.getName());
-        menu.setOrderNum(menuDTO.getOrderNum());
-        menu.setTitle(menuDTO.getTitle());
-        menu.setPath(menuDTO.getPath());
-        menu.setRedirect(menuDTO.getRedirect());
-        menu.setRemark(menuDTO.getRemark());
-        menu.setScope(menu.getScope());
-        menu.setUpdateDatetime(new Date());
-
-        // 判断添加了父菜单
-        if (!StringUtils.isBlank(menuDTO.getParentMenu().getId())) {
-            // 查询父菜单数据
-            Menu parentMenu = menuSimpleDao.getById(menuDTO.getParentMenu().getId());
-            menu.setParentMenu(parentMenu);
-        } else {
-            menu.setParentMenu(null);
-        }
-        Menu save = menuSimpleDao.save(menu);
-        if (save == null) {
-            log.error("======菜单修改失败=====");
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public Boolean delete(String id) {
+    @Transactional(rollbackFor = Exception.class)
+    public void delete(String id) throws TransException {
 
         // 判断权限--菜单是否存在关联数据
         int list = permissionMenuService.query(id);
         if (list != 0) {
 
             // 删除权限菜单
-            Boolean pm = permissionMenuService.delete(id);
-            if (!pm) {
-                log.error("==========权限-菜单表删除失败=======");
-                return false;
-            }
+            permissionMenuService.delete(id);
         }
 
         // 删除菜单
         int m = menuSimpleDao.deleteId(id);
         if (m != 1) {
-            log.error("============菜单删除失败============");
-            return false;
+            throw new TransException(CUSTOM_EXCEPTION_MSG, "菜单删除失败");
         }
-        return true;
+
     }
 
 }

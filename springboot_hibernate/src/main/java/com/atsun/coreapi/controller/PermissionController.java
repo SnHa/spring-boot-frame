@@ -2,7 +2,10 @@ package com.atsun.coreapi.controller;
 
 import com.atsun.coreapi.bean.DataResponse;
 import com.atsun.coreapi.bean.NoDataResponse;
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dto.PermissionDTO;
+import com.atsun.coreapi.dto.PermissionPageDTO;
+import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.service.PermissionService;
 import com.atsun.coreapi.vo.PermissionVO;
 import io.swagger.annotations.Api;
@@ -18,7 +21,7 @@ import java.util.List;
  */
 @Slf4j
 @Api(tags = "权限管理")
-@RequestMapping("/permission1")
+@RequestMapping("/permission")
 @RestController
 public class PermissionController extends BaseController {
 
@@ -31,26 +34,12 @@ public class PermissionController extends BaseController {
 
     // 添加
 
-    @ApiOperation(value = "添加权限管理")
-    @PostMapping("/add")
-    public NoDataResponse add(@RequestBody PermissionDTO permissionDTO) {
-        Boolean flag = permissionService.add(permissionDTO);
-        if (!flag) {
-            return error();
-        }
-        return ok();
-    }
+    @ApiOperation(value = "添加-修改权限管理")
+    @PostMapping("/edit")
+    public NoDataResponse edit(@RequestBody PermissionDTO permissionDTO) throws TransException {
 
-    //修改
+        permissionService.edit(permissionDTO);
 
-    @ApiOperation(value = "修改权限管理")
-    @PostMapping("/update")
-    public NoDataResponse update(@RequestBody PermissionDTO permissionDTO) {
-
-        Boolean flag = permissionService.update(permissionDTO);
-        if (!flag) {
-            return error();
-        }
         return ok();
     }
 
@@ -58,12 +47,10 @@ public class PermissionController extends BaseController {
 
     @ApiOperation(value = "单个删除")
     @DeleteMapping("/delete/{id}")
-    public NoDataResponse delete(@PathVariable("id") String id) {
+    public NoDataResponse delete(@PathVariable("id") String id) throws TransException {
 
-        Boolean flag = permissionService.delete(id);
-        if (!flag) {
-            return error();
-        }
+        permissionService.delete(id);
+
         return ok();
     }
 
@@ -73,23 +60,20 @@ public class PermissionController extends BaseController {
 
     @ApiOperation(value = "添加子权限管理")
     @PostMapping("/addSon")
-    public NoDataResponse addSon(@RequestBody PermissionDTO permissionDTO) {
-        Boolean flag = permissionService.addSon(permissionDTO);
-        if (!flag) {
-            return error();
-        }
+    public NoDataResponse addSon(@RequestBody PermissionDTO permissionDTO) throws TransException {
+
+        permissionService.addSon(permissionDTO);
+
         return ok();
     }
 
     //查询全部
 
     @ApiOperation(value = "查询全部信息")
-    @GetMapping("/selectList/{page}/{size}")
-    public DataResponse selectList(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+    @PostMapping("/selectList")
+    public DataResponse<PageBean<PermissionVO>> selectList(@RequestBody PermissionPageDTO permissionPageDTO) throws TransException {
 
-        List<PermissionVO> permissionList = permissionService.getAll(page, size);
-
-        return ok(permissionList);
+        return ok(permissionService.getAll(permissionPageDTO));
 
     }
 

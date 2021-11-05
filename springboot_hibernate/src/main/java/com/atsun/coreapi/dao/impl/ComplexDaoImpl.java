@@ -16,6 +16,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -193,6 +194,11 @@ public class ComplexDaoImpl<T, ID extends Serializable> implements ComplexDao<T,
     @Override
     public long getTotalBySql(String sql, Map<String, Object> params) {
         return (Long) createNativeQuery(sql, params, null, null, null).getSingleResult();
+    }
+
+    @Override
+    public BigInteger getTotalBySqlBigInt(String sql, Map<String, Object> params) {
+    return  (BigInteger) createNativeQuery(sql, params, null, null, null).getSingleResult();
     }
 
     @Override
@@ -418,7 +424,7 @@ public class ComplexDaoImpl<T, ID extends Serializable> implements ComplexDao<T,
         sql = String.format("%s %s", sql, StringUtils.defaultString(where));
         totalSql = StringUtils.isBlank(totalSql) ? String.format("SELECT COUNT(1) %s", sql.substring(sql.toUpperCase().indexOf("FROM"))) : String.format("%s %s", totalSql, StringUtils.defaultString(where));
 
-        return pageBean.loadData(getTotalBySql(totalSql, params), getPageListBySql(sql, params, orders, page, resultClass));
+        return pageBean.loadData(getTotalBySqlBigInt(totalSql, params).longValue(), getPageListBySql(sql, params, orders, page, resultClass));
     }
 
 }

@@ -1,8 +1,12 @@
 package com.atsun.coreapi.dao;
 
+import com.atsun.coreapi.bean.Page;
+import com.atsun.coreapi.bean.PageBean;
+import com.atsun.coreapi.enums.PermissionType;
 import com.atsun.coreapi.po.Permission;
 import com.atsun.coreapi.vo.PermissionVO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,12 +46,21 @@ public interface PermissionComplexDao extends ComplexDao<Permission, String> {
      */
     Permission getPermission(String id);
 
+
     /**
      * 获取全部的权限信息
      *
      * @param page
-     * @param size
+     * @param name
      * @return
      */
-    List<PermissionVO> getAll(Integer page, Integer size);
+    PageBean<PermissionVO> getAll(Page page, String name);
+
+    /**
+     * 根据父id查询子权限
+     *
+     * @param perIds
+     * @return
+     */
+    List<PermissionVO> getByPid(ArrayList<String> perIds);
 }

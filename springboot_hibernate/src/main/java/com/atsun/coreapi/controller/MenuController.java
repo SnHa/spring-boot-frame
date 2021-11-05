@@ -2,7 +2,10 @@ package com.atsun.coreapi.controller;
 
 import com.atsun.coreapi.bean.DataResponse;
 import com.atsun.coreapi.bean.NoDataResponse;
+import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dto.MenuDTO;
+import com.atsun.coreapi.dto.MenuPageDTO;
+import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.service.MenuService;
 import com.atsun.coreapi.vo.MenuVO;
 import io.swagger.annotations.Api;
@@ -42,39 +45,21 @@ public class MenuController extends BaseController {
 
     // 查询所有菜单
 
-    @ApiOperation(value = "查询所有菜单")
-    @GetMapping("/query/{page}/{size}")
-    public DataResponse query(@PathVariable("page") Integer page, @PathVariable("size") Integer size) {
+    @ApiOperation(value = "条件查询")
+    @PostMapping("/query")
+    public DataResponse<PageBean<MenuVO>> query(@RequestBody MenuPageDTO menuPageDTO) throws TransException {
 
-        List<MenuVO> build = menuService.getAllMenu(page, size);
-        return ok(build);
+        return ok(menuService.getAllMenu(menuPageDTO));
     }
 
     // 添加菜单
 
-    @ApiOperation(value = "添加菜单")
-    @PostMapping("/add")
-    public NoDataResponse add(@RequestBody MenuDTO menuDTO) {
+    @ApiOperation(value = "添加-修改菜单")
+    @PostMapping("/edit")
+    public NoDataResponse edit(@RequestBody MenuDTO menuDTO) throws TransException {
 
-        Boolean flag = menuService.add(menuDTO);
+        menuService.edit(menuDTO);
 
-        if (!flag) {
-            return error();
-        }
-        return ok();
-    }
-
-    // 修改菜单
-
-    @ApiOperation(value = "修改菜单")
-    @PostMapping("/update")
-    public NoDataResponse update(@RequestBody MenuDTO menuDTO) {
-
-        Boolean flag = menuService.update(menuDTO);
-
-        if (!flag) {
-            return error();
-        }
         return ok();
     }
 
@@ -82,13 +67,10 @@ public class MenuController extends BaseController {
 
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("/delete/{id}")
-    public NoDataResponse delete(@PathVariable("id") String id) {
+    public NoDataResponse delete(@PathVariable("id") String id) throws TransException {
 
-        Boolean flag = menuService.delete(id);
+        menuService.delete(id);
 
-        if (!flag) {
-            return error();
-        }
         return ok();
     }
 }
