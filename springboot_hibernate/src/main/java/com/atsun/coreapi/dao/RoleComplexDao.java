@@ -41,8 +41,8 @@ public interface RoleComplexDao extends ComplexDao<Role, String> {
     /**
      * 根据id查询 角色
      *
-     * @param id
+     * @param roleId
      * @return
      */
-    Role getRole(String id);
+    Role getRole(String roleId);
 }

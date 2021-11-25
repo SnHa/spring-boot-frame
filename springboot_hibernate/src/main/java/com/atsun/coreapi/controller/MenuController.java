@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -36,23 +35,29 @@ public class MenuController extends BaseController {
 
     @ApiOperation(value = "动态获取菜单项")
     @GetMapping("/select")
-    public DataResponse select(HttpServletRequest request, HttpServletResponse response) {
+    public DataResponse<List<MenuVO>> select(HttpServletRequest request) {
+
         log.info("响应头获取token消息" + request.getHeader("token"));
         String token = request.getHeader("token");
-        List<MenuVO> build = menuService.getAll(token);
-        return ok(build);
-    }
 
-    // 查询所有菜单
+        return ok(menuService.getAll(token));
+    }
 
     @ApiOperation(value = "条件查询")
     @PostMapping("/query")
     public DataResponse<PageBean<MenuVO>> query(@RequestBody MenuPageDTO menuPageDTO) throws TransException {
 
         return ok(menuService.getAllMenu(menuPageDTO));
+
     }
 
-    // 添加菜单
+    @ApiOperation(value = "子查询")
+    @PostMapping("/query/{pid}")
+    public DataResponse<List<MenuVO>> queryPid(@PathVariable("pid") String pid) throws TransException {
+
+        return ok(menuService.getAllSubmenu(pid));
+
+    }
 
     @ApiOperation(value = "添加-修改菜单")
     @PostMapping("/edit")
@@ -63,13 +68,11 @@ public class MenuController extends BaseController {
         return ok();
     }
 
-    // 删除菜单和关联表
-
     @ApiOperation(value = "删除菜单")
     @DeleteMapping("/delete/{id}")
-    public NoDataResponse delete(@PathVariable("id") String id) throws TransException {
+    public NoDataResponse delete(@PathVariable("id") String menuId) throws TransException {
 
-        menuService.delete(id);
+        menuService.delete(menuId);
 
         return ok();
     }

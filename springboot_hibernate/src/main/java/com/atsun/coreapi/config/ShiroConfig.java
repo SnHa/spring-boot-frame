@@ -52,8 +52,7 @@ public class ShiroConfig {
             String id = tokenUtils.validationToken(token).getId();
 
             // 查询用户的角色，授权返回AuthorizationInfo类型
-            AuthorizationInfo info = managerService.authorizationInfo(id);
-            return info;
+            return managerService.authorizationInfo(id);
         }
 
         @Override
@@ -100,13 +99,13 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(getSecurityManager);
 
         //oauth过滤
-        Map<String, Filter> filters = new HashMap<>();
+        Map<String, Filter> filters = new HashMap<>(10);
         //添加自定义过滤器
         filters.put("auth", new AuthFilter());
         factoryBean.setFilters(filters);
 
         // ShrioFilterFactroy 拦截控制
-        HashMap<String, String> filterMap = new HashMap<>();
+        HashMap<String, String> filterMap = new HashMap<>(10);
         //配置路径过滤器 anthc表示需要登录后才能进入
         filterMap.put("/info1/**", "auth");
         filterMap.put("/menu1/**", "auth");
@@ -116,11 +115,11 @@ public class ShiroConfig {
     }
 
     /**
-     * @param getSecurityManager
-     * @return AuthorizationAttributeSourceAdvisor
-     * @Title: authorizationAttributeSourceAdvisor
-     * @Description:开启shiro提供的权限相关的注解
-     **/
+     * 开启注解
+     *
+     * @param getSecurityManager 安全管理器
+     * @return authorizationAttributeSourceAdvisor
+     */
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(DefaultWebSecurityManager getSecurityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();

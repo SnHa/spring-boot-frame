@@ -1,18 +1,20 @@
 package com.atsun.coreapi.dao;
 
 import com.atsun.coreapi.po.RolePermission;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 /**
  * @author HP
  */
+@Repository
 public interface RolePermissionComplexDao extends ComplexDao<RolePermission, String> {
 
     /**
      * 根据角色id查询权限id集合
      *
-     * @param roleIds
+     * @param roleIds 角色id集合
      * @return list集合
      */
     List<String> getPermissionIds(List<String> roleIds);
@@ -20,16 +22,14 @@ public interface RolePermissionComplexDao extends ComplexDao<RolePermission, Str
     /**
      * 根据角色id删除苏剧
      *
-     * @param id
-     * @return
+     * @param roleId 角色id
      */
-    int deleteRoleId(String id);
+    void deleteRoleId(String roleId);
 
     /**
      * 根据权限id进行删除
      *
-     * @param id
-     * @return
+     * @param permissionId 权限id
      */
-    int deletePermission(String id);
+    void deletePermission(String permissionId);
 }

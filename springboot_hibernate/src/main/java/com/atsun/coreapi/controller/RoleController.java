@@ -36,17 +36,16 @@ public class RoleController extends BaseController {
     @RequiresPermissions("role:getPage")
     @PostMapping("/list")
     public DataResponse<PageBean<RoleVO>> list(@RequestBody RolePageDTO rolePageDTO) throws TransException {
-        // 直接查询角色表带分页
+
         return ok(roleService.getAll(rolePageDTO));
     }
-    // 删除
 
     @ApiOperation("删除角色")
     @RequiresPermissions("role:delete")
     @DeleteMapping("/delete/{id}")
-    public NoDataResponse delete(@PathVariable("id") String id) throws TransException {
+    public NoDataResponse delete(@PathVariable("id") String roleId) throws TransException {
 
-        roleService.delete(id);
+        roleService.delete(roleId);
 
         return ok();
     }
@@ -63,20 +62,20 @@ public class RoleController extends BaseController {
 
     @ApiOperation(value = "根据id查询单个角色做回显")
     @GetMapping("/query/{id}")
-    public DataResponse query(@PathVariable("id") String id) throws TransException {
+    public DataResponse<Role> query(@PathVariable("id") String roleId) throws TransException {
 
-        Role role = roleService.query(id);
+        return ok(roleService.query(roleId));
 
-        return ok(role);
     }
-
-    // 角色授权 权限
 
     @ApiOperation(value = "角色添加权限管理")
     @RequiresPermissions("role:authorize")
     @PostMapping("/add/permission")
     public NoDataResponse rolePermission(@RequestBody RoleDTO roleDTO) throws TransException {
+
         roleService.addPermission(roleDTO);
+
         return ok();
+
     }
 }

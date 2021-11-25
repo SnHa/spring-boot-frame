@@ -55,12 +55,12 @@ public class RoleSimpleDaoImpl extends ComplexDaoImpl<Role, String> implements R
     }
 
     @Override
-    public Role getRole(String id) {
+    public Role getRole(String roleId) {
         String sql = "SELECT o.id AS id, o.name AS name, o.remark AS remark,  o.scope AS scope, " +
                 "  o.create_datetime AS createDatetime, o.update_datetime AS updateDatetime FROM t_role o WHERE o.id=:id";
 
         HashMap<String, Object> params = new HashMap<>(5);
-        params.put("id", id);
+        params.put("id", roleId);
 
         return super.getSingleResultBySql(sql, params, Role.class);
     }

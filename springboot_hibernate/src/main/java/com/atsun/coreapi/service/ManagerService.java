@@ -31,10 +31,10 @@ public interface ManagerService {
     /**
      * 删除用户信息
      *
-     * @param id 用户id
+     * @param managerId 用户id
      * @throws TransException 异常处理
      */
-    void delete(String id) throws TransException;
+    void delete(String managerId) throws TransException;
 
     /**
      * 登录
