@@ -3,18 +3,18 @@ package com.atsun.coreapi.dao.impl;
 import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.bean.PageBean;
 import com.atsun.coreapi.dao.PermissionComplexDao;
-import com.atsun.coreapi.enums.PermissionType;
 import com.atsun.coreapi.po.Permission;
 import com.atsun.coreapi.vo.PermissionVO;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
  * @author SH
  */
+@Repository
 public class PermissionComplexDaoImpl extends ComplexDaoImpl<Permission, String> implements PermissionComplexDao {
 
     @Override
@@ -31,12 +31,13 @@ public class PermissionComplexDaoImpl extends ComplexDaoImpl<Permission, String>
     }
 
     @Override
-    public List<String> getListSn(List<String> listPermission) {
+    public List<String> getListSn(List<String> ids) {
+
         String sql = "SELECT o.sn FROM t_permission o WHERE o.id IN (:id) ";
 
         HashMap<String, Object> params = new HashMap<>(5);
 
-        params.put("id", listPermission);
+        params.put("id", ids);
 
         return super.getListBySql(sql, params, null, String.class);
     }

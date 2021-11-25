@@ -7,6 +7,7 @@ import com.atsun.coreapi.dao.RolePermissionSimpleDao;
 import com.atsun.coreapi.dao.RoleSimpleDao;
 import com.atsun.coreapi.dto.RoleDTO;
 import com.atsun.coreapi.dto.RolePageDTO;
+import com.atsun.coreapi.enums.TransCode;
 import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.po.Permission;
 import com.atsun.coreapi.po.Role;
@@ -19,7 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author SH
@@ -55,35 +59,34 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Set<String> listName(List<String> listRole) {
+    public Set<String> listName(List<String> roleIds) {
 
-        List<String> listName = roleSimpleDao.getListName(listRole);
+        List<String> listName = roleSimpleDao.getListName(roleIds);
 
         return new HashSet<>(listName);
-
     }
 
     @Override
     public PageBean<RoleVO> getAll(RolePageDTO rolePageDTO) {
-
         return roleSimpleDao.getAll(rolePageDTO.getPage(), rolePageDTO.getName());
-
     }
 
     @Override
-    public void edit(RoleDTO roleDTO) {
+    public void edit(RoleDTO roleDTO) throws TransException {
 
         Role role;
 
         if (StringUtils.isNotBlank(roleDTO.getId())) {
 
-            role = roleSimpleDao.getRole(roleDTO.getId());
-            role.setUpdateDatetime(new Date());
+            Optional<Role> o = roleSimpleDao.findById(roleDTO.getId());
 
+            if (!o.isPresent()) {
+                throw new TransException(TransCode.RECORD_NOT_EXIST);
+            }
+
+            role = o.get();
         } else {
-
             role = new Role();
-
         }
 
         role.setName(roleDTO.getName());
@@ -91,14 +94,11 @@ public class RoleServiceImpl implements RoleService {
         role.setScope(roleDTO.getScope());
 
         roleSimpleDao.save(role);
-
     }
 
     @Override
     public Role query(String roleId) {
-
         return roleSimpleDao.getRole(roleId);
-
     }
 
     @Override
@@ -108,7 +108,6 @@ public class RoleServiceImpl implements RoleService {
         rolePermissionSimpleDao.deleteRoleId(roleId);
 
         roleSimpleDao.deleteById(roleId);
-
     }
 
     @Override
@@ -121,11 +120,9 @@ public class RoleServiceImpl implements RoleService {
         rolePermission.setRole(role);
 
         for (Permission p : permissions) {
-
             rolePermission.setPermission(p);
             rolePermissionSimpleDao.save(rolePermission);
-
         }
-
     }
+
 }

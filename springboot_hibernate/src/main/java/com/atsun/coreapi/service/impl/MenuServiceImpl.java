@@ -81,9 +81,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public PageBean<MenuVO> getAllMenu(MenuPageDTO menuPageDTO) {
-
         return menuSimpleDao.getAllMenu(menuPageDTO.getPage(), menuPageDTO.getName(), menuPageDTO.getTitle());
-
     }
 
     @Override
@@ -92,13 +90,9 @@ public class MenuServiceImpl implements MenuService {
         Menu menu;
 
         if (StringUtils.isNotBlank(menuDTO.getId())) {
-
             menu = menuSimpleDao.getById(menuDTO.getId());
-            menu.setUpdateDatetime(new Date());
         } else {
-
             menu = new Menu();
-
         }
 
         menu.setComponent(menuDTO.getComponent());
@@ -113,18 +107,13 @@ public class MenuServiceImpl implements MenuService {
         menu.setScope(menu.getScope());
 
         if (!StringUtils.isBlank(menuDTO.getParentMenu().getId())) {
-
             Menu parentMenu = menuSimpleDao.getById(menuDTO.getParentMenu().getId());
             menu.setParentMenu(parentMenu);
-
         } else {
-
             menu.setParentMenu(null);
-
         }
 
         menuSimpleDao.save(menu);
-
     }
 
     @Override
@@ -138,14 +127,11 @@ public class MenuServiceImpl implements MenuService {
         }
 
         menuSimpleDao.deleteId(menuId);
-
     }
 
     @Override
     public List<MenuVO> getAllSubmenu(String pid) {
-
         return menuSimpleDao.getAllSubmenu(pid);
-
     }
 
 }

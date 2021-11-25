@@ -1,20 +1,13 @@
 package com.atsun.coreapi;
 
-import com.atsun.coreapi.dao.*;
-import com.atsun.coreapi.dto.ManagerPageDTO;
-import com.atsun.coreapi.po.Role;
-import com.atsun.coreapi.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 

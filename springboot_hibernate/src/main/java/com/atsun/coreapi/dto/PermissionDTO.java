@@ -36,6 +36,11 @@ public class PermissionDTO {
     /**
      * 父权限
      */
+    private String parentPermissionId;
+
+    /**
+     * 父权限
+     */
     private Permission parentPermission;
 
     /**
@@ -56,7 +61,7 @@ public class PermissionDTO {
     /**
      * 菜单id
      */
-    List<String> listMenuId;
+    private List<String> listMenuId;
 
     public void setType(Object type) {
         this.type = type instanceof String ? PermissionType.valueOf((String) type) : (PermissionType) type;

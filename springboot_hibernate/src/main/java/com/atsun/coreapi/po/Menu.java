@@ -93,4 +93,8 @@ public class Menu extends BaseSnowflakeIdModel {
     @Column
     private String remark;
 
+    public Menu(String id) {
+        super(id);
+    }
+
 }

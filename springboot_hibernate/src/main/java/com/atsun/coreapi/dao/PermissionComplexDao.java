@@ -25,10 +25,10 @@ public interface PermissionComplexDao extends ComplexDao<Permission, String> {
     /**
      * 根据id查询sn
      *
-     * @param listPermission 权限id集合
+     * @param ids 权限id集合
      * @return List<String>
      */
-    List<String> getListSn(List<String> listPermission);
+    List<String> getListSn(List<String> ids);
 
     /**
      * 获取父节点信息

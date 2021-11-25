@@ -1,6 +1,7 @@
 package com.atsun.coreapi.po;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import javax.persistence.*;
  */
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "t_permission_menu", indexes = {
         @Index(name = "UK_permission_id_menu_id", columnList = "permissionId,menuId", unique = true)
@@ -35,5 +37,10 @@ public class PermissionMenu extends BaseSnowflakeIdModel {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menuId", nullable = false)
     private Menu menu;
+
+    public PermissionMenu(Permission permission, Menu menu) {
+        this.permission = permission;
+        this.menu = menu;
+    }
 
 }

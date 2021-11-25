@@ -53,18 +53,14 @@ public class PermissionController extends BaseController {
     @ApiOperation(value = "查询全部信息")
     @PostMapping("/selectList")
     public DataResponse<PageBean<PermissionVO>> selectList(@RequestBody PermissionPageDTO permissionPageDTO) throws TransException {
-
         return ok(permissionService.getAll(permissionPageDTO));
-
     }
 
 
     @ApiOperation(value = "查询子全部信息")
     @PostMapping("/select/{pid}")
     public DataResponse<List<PermissionVO>> selectSubmenu(@PathVariable("pid") String pid) throws TransException {
-
         return ok(permissionService.getAllSubPermission(pid));
-
     }
 
 }

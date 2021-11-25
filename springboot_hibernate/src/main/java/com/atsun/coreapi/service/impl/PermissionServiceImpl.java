@@ -19,7 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static com.atsun.coreapi.enums.TransCode.CUSTOM_EXCEPTION_MSG;
 
@@ -62,8 +64,9 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public Set<String> getListSn(List<String> listPermission) {
-        List<String> listSn = permissionSimpleDao.getListSn(listPermission);
+    public Set<String> getListSn(List<String> permissionIds) {
+
+        List<String> listSn = permissionSimpleDao.getListSn(permissionIds);
 
         return new HashSet<>(listSn);
     }
@@ -77,19 +80,14 @@ public class PermissionServiceImpl implements PermissionService {
         if (StringUtils.isNotBlank(permissionDTO.getId())) {
 
             permission = permissionSimpleDao.getPermission(permissionDTO.getId());
-            permission.setUpdateDatetime(new Date());
 
             List<String> permissionId = permissionMenuSimpleDao.getPermission(permissionDTO.getId());
+
             if (permissionId != null) {
-
                 permissionMenuSimpleDao.deletePermission(permissionDTO.getId());
-
             }
-
         } else {
-
             permission = new Permission();
-
         }
 
         permission.setOrderNum(0);
@@ -100,60 +98,44 @@ public class PermissionServiceImpl implements PermissionService {
         permission.setType(permissionDTO.getType());
 
         if (permissionDTO.getParentPermission().getId() != null) {
-
             Permission parentPermission = permissionSimpleDao.getParent(permissionDTO.getParentPermission().getId());
             permission.setParentPermission(parentPermission);
-
         } else {
-
             permission.setParentPermission(null);
-
         }
 
-        Permission save = permissionSimpleDao.save(permission);
+        permissionSimpleDao.save(permission);
 
         for (String id : permissionDTO.getListMenuId()) {
-            PermissionMenu permissionMenu = new PermissionMenu();
-            permissionMenu.setPermission(save);
-
-            Menu menu = menuSimpleDao.getById(id);
-            permissionMenu.setMenu(menu);
-            permissionMenuSimpleDao.save(permissionMenu);
+            permissionMenuSimpleDao.save(new PermissionMenu(permission, new Menu(id)));
         }
 
     }
-
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(String permissionId) throws TransException {
 
         if (StringUtils.isBlank(permissionSimpleDao.getById(permissionId).getId())) {
-
             throw new TransException(CUSTOM_EXCEPTION_MSG, "权限不存在");
-
         }
 
         rolePermissionSimpleDao.deletePermission(permissionId);
+        rolePermissionSimpleDao.flush();
         permissionMenuSimpleDao.deletePermission(permissionId);
+        permissionMenuSimpleDao.flush();
 
         permissionSimpleDao.delById(permissionId);
-
     }
 
     @Override
     public PageBean<PermissionVO> getAll(PermissionPageDTO permissionPageDTO) {
-
         return permissionSimpleDao.getAll(permissionPageDTO.getPage(), permissionPageDTO.getName());
-
     }
 
     @Override
     public List<PermissionVO> getAllSubPermission(String pid) {
-
         return permissionSimpleDao.getByPid(pid);
-
     }
-
 
 }

@@ -2,6 +2,7 @@ package com.atsun.coreapi.dao.impl;
 
 import com.atsun.coreapi.dao.PermissionMenuSimpleComplexDao;
 import com.atsun.coreapi.po.PermissionMenu;
+import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
 /**
  * @author SH
  */
+@Repository
 public class PermissionMenuSimpleComplexDaoImpl extends ComplexDaoImpl<PermissionMenu, String> implements PermissionMenuSimpleComplexDao {
 
     @Override
@@ -20,17 +22,6 @@ public class PermissionMenuSimpleComplexDaoImpl extends ComplexDaoImpl<Permissio
         params.put("permissionId", listTypeMenu);
 
         return super.getListBySql(sql, params, null, String.class);
-    }
-
-    @Override
-    public Long getListMenuId(String menuId) {
-        String sql = "SELECT COUNT(o.id) FROM t_permission_menu o WHERE o.menu_id=:menuId";
-
-        HashMap<String, Object> params = new HashMap<>(5);
-        params.put("menuId", menuId);
-
-
-        return super.getTotalBySql(sql, params);
     }
 
     @Override

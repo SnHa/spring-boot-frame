@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AuthFilter extends AuthenticatingFilter {
 
-
     @Override
     protected AuthenticationToken createToken(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         String token = getRequestToken((HttpServletRequest) servletRequest);
@@ -69,4 +68,5 @@ public class AuthFilter extends AuthenticatingFilter {
 
         return token;
     }
+
 }

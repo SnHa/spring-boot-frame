@@ -1,15 +1,11 @@
 package com.atsun.coreapi.service.impl;
 
 import com.atsun.coreapi.dao.PermissionMenuSimpleDao;
-import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.service.PermissionMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.TransactionalException;
 import java.util.List;
-
-import static com.atsun.coreapi.enums.TransCode.CUSTOM_EXCEPTION_MSG;
 
 /**
  * @author SH

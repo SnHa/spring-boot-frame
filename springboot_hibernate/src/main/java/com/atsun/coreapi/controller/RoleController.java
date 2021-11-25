@@ -36,7 +36,6 @@ public class RoleController extends BaseController {
     @RequiresPermissions("role:getPage")
     @PostMapping("/list")
     public DataResponse<PageBean<RoleVO>> list(@RequestBody RolePageDTO rolePageDTO) throws TransException {
-
         return ok(roleService.getAll(rolePageDTO));
     }
 
@@ -63,9 +62,7 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "根据id查询单个角色做回显")
     @GetMapping("/query/{id}")
     public DataResponse<Role> query(@PathVariable("id") String roleId) throws TransException {
-
         return ok(roleService.query(roleId));
-
     }
 
     @ApiOperation(value = "角色添加权限管理")
@@ -76,6 +73,6 @@ public class RoleController extends BaseController {
         roleService.addPermission(roleDTO);
 
         return ok();
-
     }
+
 }

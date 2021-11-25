@@ -24,7 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
-
 /**
  * @author SH
  */
@@ -153,30 +152,33 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public PageBean<ManagerVO> getPage(ManagerPageDTO dto) throws TransException {
-
         return managerSimpleDao.getPage(dto.getUsername(), dto.getState(), dto.getPage());
-
     }
 
     @Override
     public AuthorizationInfo authorizationInfo(String id) {
+
         // 查询角色信息
-        List<String> listRole = managerRoleService.getRoleIds(id);
-        Set<String> listName = roleService.listName(listRole);
+        List<String> roleIds = managerRoleService.getRoleIds(id);
+        Set<String> listName = roleService.listName(roleIds);
+
         // 查询授权信息
         // 根据角色id查询权限id
-        List<String> listPermission = rolePermissionService.getPermissionIds(listRole);
+        List<String> permissionIds = rolePermissionService.getPermissionIds(roleIds);
         // 根据权限id查询sn
-        Set<String> listSn = permissionService.getListSn(listPermission);
+        Set<String> listSn = permissionService.getListSn(permissionIds);
         Set<String> sn = new HashSet<>();
+
         for (String s : listSn) {
             String[] strings = s.split(",");
             sn.addAll(Arrays.asList(strings));
         }
-        //
+
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+
         info.setRoles(listName);
         info.setStringPermissions(sn);
+
         return info;
     }
 

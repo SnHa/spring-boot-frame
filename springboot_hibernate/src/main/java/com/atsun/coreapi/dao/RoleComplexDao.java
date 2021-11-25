@@ -2,7 +2,6 @@ package com.atsun.coreapi.dao;
 
 import com.atsun.coreapi.bean.Page;
 import com.atsun.coreapi.bean.PageBean;
-import com.atsun.coreapi.exception.TransException;
 import com.atsun.coreapi.po.Role;
 import com.atsun.coreapi.vo.RoleVO;
 
@@ -24,10 +23,10 @@ public interface RoleComplexDao extends ComplexDao<Role, String> {
     /**
      * 获取角色名字
      *
-     * @param listRole
+     * @param roleIds
      * @return
      */
-    List<String> getListName(List<String> listRole);
+    List<String> getListName(List<String> roleIds);
 
     /**
      * 查询全部的角色
