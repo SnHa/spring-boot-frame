@@ -17,17 +17,17 @@ public interface RoleService {
     /**
      * 查询角色名称
      *
-     * @param listRole
-     * @return
+     * @param listRole 角色
+     * @return Set<String>
      */
     Set<String> listName(List<String> listRole);
 
     /**
      * 查询全部用户
      *
-     * @param rolePageDTO
-     * @return
-     * @throws TransException
+     * @param rolePageDTO 角色分页
+     * @return PageBean<RoleVO>
+     * @throws TransException 异常
      */
     PageBean<RoleVO> getAll(RolePageDTO rolePageDTO) throws TransException;
 
@@ -35,32 +35,33 @@ public interface RoleService {
     /**
      * 添加-修改数据
      *
-     * @param roleDTO
-     * @throws TransException
+     * @param roleDTO 角色
+     * @throws TransException 异常
      */
     void edit(RoleDTO roleDTO) throws TransException;
 
     /**
      * 查询单个数据
      *
-     * @param id
-     * @return
-     * @throws TransException
+     * @param roleId 角色id
+     * @return Role query
+     * @throws TransException 异常
      */
-    Role query(String id) throws TransException;
+    Role query(String roleId) throws TransException;
 
     /**
      * 根据id删除数据
      *
-     * @param id
-     * @throws TransException
+     * @param roleId 角色id
+     * @throws TransException 异常
      */
-    void delete(String id) throws TransException;
+    void delete(String roleId) throws TransException;
 
     /**
      * 添加授权
      *
-     * @param roleDTO
+     * @param roleDTO 角色
+     * @throws TransException 异常
      */
     void addPermission(RoleDTO roleDTO) throws TransException;
 }

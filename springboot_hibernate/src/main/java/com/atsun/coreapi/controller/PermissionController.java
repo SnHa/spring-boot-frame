@@ -32,8 +32,6 @@ public class PermissionController extends BaseController {
         this.permissionService = permissionService;
     }
 
-    // 添加
-
     @ApiOperation(value = "添加-修改权限管理")
     @PostMapping("/edit")
     public NoDataResponse edit(@RequestBody PermissionDTO permissionDTO) throws TransException {
@@ -43,31 +41,14 @@ public class PermissionController extends BaseController {
         return ok();
     }
 
-    //单个删除
-
     @ApiOperation(value = "单个删除")
     @DeleteMapping("/delete/{id}")
-    public NoDataResponse delete(@PathVariable("id") String id) throws TransException {
+    public NoDataResponse delete(@PathVariable("id") String permissionId) throws TransException {
 
-        permissionService.delete(id);
-
-        return ok();
-    }
-
-    //批量删除
-
-    //添加子菜单
-
-    @ApiOperation(value = "添加子权限管理")
-    @PostMapping("/addSon")
-    public NoDataResponse addSon(@RequestBody PermissionDTO permissionDTO) throws TransException {
-
-        permissionService.addSon(permissionDTO);
+        permissionService.delete(permissionId);
 
         return ok();
     }
-
-    //查询全部
 
     @ApiOperation(value = "查询全部信息")
     @PostMapping("/selectList")
@@ -77,5 +58,13 @@ public class PermissionController extends BaseController {
 
     }
 
+
+    @ApiOperation(value = "查询子全部信息")
+    @PostMapping("/select/{pid}")
+    public DataResponse<List<PermissionVO>> selectSubmenu(@PathVariable("pid") String pid) throws TransException {
+
+        return ok(permissionService.getAllSubPermission(pid));
+
+    }
 
 }

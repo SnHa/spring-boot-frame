@@ -1,9 +1,11 @@
 package com.atsun.coreapi.dao;
 
 import com.atsun.coreapi.po.ManagerRole;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author HP
  */
-public interface ManagerRoleSimpleDao extends SimpleDao<ManagerRole,String>, ManagerRoleComplexDao {
+@Repository
+public interface ManagerRoleSimpleDao extends SimpleDao<ManagerRole, String>, ManagerRoleComplexDao {
 }

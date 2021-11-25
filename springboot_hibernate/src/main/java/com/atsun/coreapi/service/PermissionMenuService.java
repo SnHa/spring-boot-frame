@@ -11,25 +11,25 @@ public interface PermissionMenuService {
     /**
      * 获取菜单id
      *
-     * @param listTypeMenu
-     * @return
+     * @param listTypeMenu 菜单类型
+     * @return List<String>
      */
     List<String> getListMenuId(List<String> listTypeMenu);
 
     /**
      * 根据菜单id删除关联表数据
      *
-     * @param id 菜单的id
+     * @param menuId 菜单的id
      * @throws TransException 异常处理
      */
-    void delete(String id) throws TransException;
+    void delete(String menuId) throws TransException;
 
     /**
      * 查询是否存在关联的菜单数据
      *
-     * @param id
-     * @return
+     * @param menuId 菜单id
+     * @return int
      */
-    int query(String id);
+    int query(String menuId);
 
 }

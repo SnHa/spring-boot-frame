@@ -53,11 +53,11 @@ public class PermissionComplexDaoImpl extends ComplexDaoImpl<Permission, String>
     }
 
     @Override
-    public Permission getPermission(String id) {
+    public Permission getPermission(String permissionId) {
         String where = " WHERE o.id=:id";
 
         HashMap<String, Object> params = new HashMap<>(5);
-        params.put("id", id);
+        params.put("id", permissionId);
 
         return super.getSingleResult(where, params);
     }
@@ -78,13 +78,13 @@ public class PermissionComplexDaoImpl extends ComplexDaoImpl<Permission, String>
     }
 
     @Override
-    public List<PermissionVO> getByPid(ArrayList<String> perIds) {
+    public List<PermissionVO> getByPid(String pid) {
 
         String sql = "SELECT o.id AS id, o.name AS name, o.remark AS remark, o.scope AS scope," +
-                " o.p_id AS pid FROM t_permission o WHERE o.p_id IN (:pIds)";
+                " o.p_id AS pid FROM t_permission o WHERE o.p_id =:pId)";
 
         HashMap<String, Object> params = new HashMap<>(5);
-        params.put("pIds", perIds);
+        params.put("pId", pid);
 
         return super.getListBySql(sql, params, null, PermissionVO.class);
     }

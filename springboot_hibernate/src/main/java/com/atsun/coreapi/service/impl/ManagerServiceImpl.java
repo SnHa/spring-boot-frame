@@ -121,18 +121,17 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
-    public void delete(String id) throws TransException {
+    public void delete(String managerId) throws TransException {
 
         // 判断用户id是否存在
-        Optional<Manager> o = managerSimpleDao.findById(id);
+        Optional<Manager> o = managerSimpleDao.findById(managerId);
 
         if (!o.isPresent()) {
             throw new TransException(TransCode.RECORD_NOT_EXIST);
         }
 
-        // 删除操作
-        managerRoleSimpleDao.deleteByManagerId(id);
-        managerSimpleDao.delById(id);
+        managerRoleSimpleDao.deleteByManagerId(managerId);
+        managerSimpleDao.delById(managerId);
     }
 
     @Override
@@ -154,7 +153,9 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public PageBean<ManagerVO> getPage(ManagerPageDTO dto) throws TransException {
+
         return managerSimpleDao.getPage(dto.getUsername(), dto.getState(), dto.getPage());
+
     }
 
     @Override

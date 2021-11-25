@@ -31,18 +31,17 @@ public class PermissionMenuServiceImpl implements PermissionMenuService {
     }
 
     @Override
-    public void delete(String id) throws TransException {
+    public void delete(String menuId) {
 
-        int m = permissionMenuSimpleDao.deleteMenu(id);
-        if (m == 0) {
-            throw new TransException(CUSTOM_EXCEPTION_MSG, "关联表删除失败");
-        }
+        permissionMenuSimpleDao.deleteMenu(menuId);
 
     }
 
     @Override
-    public int query(String id) {
-        List<String> list = permissionMenuSimpleDao.getByIds(id);
+    public int query(String menuId) {
+
+        List<String> list = permissionMenuSimpleDao.getByIds(menuId);
+
         return list.size();
     }
 

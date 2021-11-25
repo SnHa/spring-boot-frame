@@ -27,25 +27,27 @@ public class MenuComplexDaoImpl extends ComplexDaoImpl<Menu, String> implements 
     }
 
     @Override
-    public int deleteId(String id) {
+    public void deleteId(String id) {
         String where = " WHERE o.id=:id";
 
         HashMap<String, Object> params = new HashMap<>(5);
         params.put("id", id);
 
-        return super.delete(where, params);
+        super.delete(where, params);
     }
 
     @Override
-    public PageBean<MenuVO> getAllMenu(Page page, String name, String title) {
+    public PageBean<MenuVO> getAllMenu(Page page, String menuName, String title) {
+
         String sql = "SELECT o.id AS id, o.name AS name, o.remark AS remark, o.scope AS scope," +
-                " o.p_id AS pid, o.component AS component, o.redirect AS redirect, o.path AS path, o.meta AS meta FROM t_menu o WHERE 1=1 ";
+                " o.p_id AS pid, o.component AS component, o.redirect AS redirect, o.path AS path," +
+                " o.title AS title, o.scope AS scope, o.meta AS meta FROM t_menu o WHERE o.p_id IS NULL AND 1=1 ";
 
         HashMap<String, Object> params = new HashMap<>(5);
 
-        if (StringUtils.isNotBlank(name)) {
+        if (StringUtils.isNotBlank(menuName)) {
             sql += " AND o.name=:name ";
-            params.put("name", name);
+            params.put("name", menuName);
         }
 
         if (StringUtils.isNotBlank(title)) {
@@ -57,11 +59,16 @@ public class MenuComplexDaoImpl extends ComplexDaoImpl<Menu, String> implements 
     }
 
     @Override
-    public List<MenuVO> getListMenu() {
-        String sql = "SELECT o.id AS id, o.name AS name, o.remark AS remark, o.scope AS scope," +
-                " o.p_id AS pid, o.component AS component, o.redirect AS redirect, o.path AS path, o.meta AS meta FROM t_menu o  ";
+    public List<MenuVO> getAllSubmenu(String pid) {
 
-        return getListBySql(sql, null, null, MenuVO.class);
+        String sql = "SELECT o.id AS id, o.name AS name, o.remark AS remark, o.scope AS scope," +
+                " o.p_id AS pid, o.component AS component, o.redirect AS redirect, o.path AS path," +
+                " o.title AS title, o.scope AS scope, o.meta AS meta FROM t_menu o WHERE o.p_id=：pid";
+
+        HashMap<String, Object> params = new HashMap<>(5);
+        params.put("pid",pid);
+
+        return getListBySql(sql,params,null,MenuVO.class);
     }
 
 }

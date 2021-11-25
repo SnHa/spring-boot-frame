@@ -16,8 +16,8 @@ public interface MenuService {
     /**
      * 获取菜单权限的菜单信息
      *
-     * @param listMenuId
-     * @return
+     * @param listMenuId 菜单id集合
+     * @return List<MenuVO>
      */
     List<MenuVO> getMenuList(List<String> listMenuId);
 
@@ -32,9 +32,9 @@ public interface MenuService {
     /**
      * 菜单栏显示所有菜单数据
      *
-     * @param menuPageDTO
+     * @param menuPageDTO 菜单分页
      * @return MenuVO
-     * @throws TransException
+     * @throws TransException 异常
      */
     PageBean<MenuVO> getAllMenu(MenuPageDTO menuPageDTO) throws TransException;
 
@@ -49,8 +49,18 @@ public interface MenuService {
 
     /**
      * 删除菜单
-     * @param id
-     * @throws TransException
+     *
+     * @param menuId 菜单id
+     * @throws TransException 异常
      */
-    void delete(String id) throws TransException;
+    void delete(String menuId) throws TransException;
+
+    /**
+     * 获得上级下面的所有菜单
+     *
+     * @param pid 父id
+     * @return List<MenuVO>
+     * @throws TransException 异常
+     */
+    List<MenuVO> getAllSubmenu(String pid) throws TransException;
 }

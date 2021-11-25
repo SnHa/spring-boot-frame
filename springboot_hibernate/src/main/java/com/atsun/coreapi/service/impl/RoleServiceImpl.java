@@ -56,78 +56,75 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public Set<String> listName(List<String> listRole) {
+
         List<String> listName = roleSimpleDao.getListName(listRole);
 
-        Set<String> name = new HashSet<>();
+        return new HashSet<>(listName);
 
-        for (String s : listName) {
-            name.add(s);
-        }
-        return name;
     }
 
     @Override
     public PageBean<RoleVO> getAll(RolePageDTO rolePageDTO) {
 
         return roleSimpleDao.getAll(rolePageDTO.getPage(), rolePageDTO.getName());
+
     }
 
     @Override
-    public void edit(RoleDTO roleDTO) throws TransException {
+    public void edit(RoleDTO roleDTO) {
 
         Role role;
 
-        // 判断id是否为空
         if (StringUtils.isNotBlank(roleDTO.getId())) {
-            // 修改
+
             role = roleSimpleDao.getRole(roleDTO.getId());
             role.setUpdateDatetime(new Date());
+
         } else {
-            //添加
+
             role = new Role();
+
         }
 
         role.setName(roleDTO.getName());
         role.setRemark(roleDTO.getRemark());
         role.setScope(roleDTO.getScope());
 
-        // 修改数据
-        Role save = roleSimpleDao.save(role);
+        roleSimpleDao.save(role);
 
     }
 
     @Override
-    public Role query(String id) throws TransException {
+    public Role query(String roleId) {
 
-        return roleSimpleDao.getRole(id);
+        return roleSimpleDao.getRole(roleId);
 
     }
 
     @Override
-    public void delete(String id) throws TransException {
-        // 根据角色id,角色——用户表进行删除
-        managerRoleSimpleDao.deleteByRoleId(id);
+    public void delete(String roleId) {
 
-        // 根据角色id，角色-权限表进行删除
-        rolePermissionSimpleDao.deleteRoleId(id);
+        managerRoleSimpleDao.deleteByRoleId(roleId);
+        rolePermissionSimpleDao.deleteRoleId(roleId);
 
-        // 根据id删除角色表
-        roleSimpleDao.deleteById(id);
+        roleSimpleDao.deleteById(roleId);
+
     }
 
     @Override
-    public void addPermission(RoleDTO roleDTO) throws TransException {
+    public void addPermission(RoleDTO roleDTO) {
 
-        // 查询关联表
         Role role = roleSimpleDao.getById(roleDTO.getId());
         List<Permission> permissions = permissionSimpleDao.findAllById(roleDTO.getPermissionIds());
 
-        // 添加关联表
         RolePermission rolePermission = new RolePermission();
         rolePermission.setRole(role);
+
         for (Permission p : permissions) {
+
             rolePermission.setPermission(p);
             rolePermissionSimpleDao.save(rolePermission);
+
         }
 
     }

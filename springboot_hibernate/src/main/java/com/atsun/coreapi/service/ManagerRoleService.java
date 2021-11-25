@@ -10,8 +10,8 @@ public interface ManagerRoleService {
     /**
      * 根据id查询角色id
      *
-     * @param managerId
-     * @return
+     * @param managerId 用户id
+     * @return List<String>
      */
     List<String> getRoleIds(String managerId);
 

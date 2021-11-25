@@ -198,7 +198,7 @@ public class ComplexDaoImpl<T, ID extends Serializable> implements ComplexDao<T,
 
     @Override
     public BigInteger getTotalBySqlBigInt(String sql, Map<String, Object> params) {
-    return  (BigInteger) createNativeQuery(sql, params, null, null, null).getSingleResult();
+        return (BigInteger) createNativeQuery(sql, params, null, null, null).getSingleResult();
     }
 
     @Override
